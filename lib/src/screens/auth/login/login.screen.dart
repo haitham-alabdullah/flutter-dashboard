@@ -1,6 +1,11 @@
 import 'package:dashboard/src/providers/auth.provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../../classes/functions.class.dart';
+import '../../../widgets/simple_loader.widget.dart';
+import '../../../widgets/alert.widget.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';
@@ -11,17 +16,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final TextEditingController username;
-  late final TextEditingController password;
-  final _formKey = GlobalKey<FormState>();
-  bool isVisible = false;
+  final TextEditingController username = TextEditingController();
+  final TextEditingController password = TextEditingController();
 
-  @override
-  void initState() {
-    username = TextEditingController();
-    password = TextEditingController();
-    super.initState();
-  }
+  bool isVisible = false;
+  bool isLoading = false;
+  String? error;
 
   @override
   void dispose() {
@@ -30,16 +30,56 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  update(VoidCallback func) {
+    if (mounted) setState(func);
+  }
+
+  bool validate() {
+    final name = username.text;
+    final pass = password.text;
+    if (name.isEmpty) {
+      return !setError('The username is required');
+    }
+    if (pass.isEmpty) {
+      return !setError('The password is required');
+    }
+    return true;
+  }
+
+  login() async {
+    setError(null);
+    update(() => isLoading = true);
+    final state = validate();
+    if (state) {
+      TextInput.finishAutofillContext();
+      await Future.delayed(const Duration(seconds: 1), () {
+        Get.find<AuthProvider>().toggleAuth(true);
+        Get.offAllNamed('/');
+      });
+    }
+    update(() => isLoading = false);
+  }
+
+  bool setError(String? value) {
+    if (error == null && value == null) return false;
+    if (mounted) setState(() => error = value);
+    return error is String;
+  }
+
+  togglePass() {
+    if (mounted) setState(() => isVisible = !isVisible);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              '/images/login.jpg',
+              imgUrl('login.jpg'),
             ),
             fit: BoxFit.cover,
           ),
@@ -63,23 +103,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                 ),
                 const SizedBox(height: 50),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
+                if (error is String) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Alert(
+                      error!,
+                      type: AlertType.danger,
+                    ),
                   ),
-                  child: Form(
-                    key: _formKey,
+                  const SizedBox(height: 20),
+                ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: AutofillGroup(
                     child: Column(
                       children: [
-                        TextFormField(
+                        TextField(
                           controller: username,
-                          validator: (value) {
-                            if (value is String && value.isNotEmpty) {
-                              return null;
-                            }
-                            return 'UserName Field is required';
-                          },
                           autofocus: true,
+                          autofillHints: const [AutofillHints.username],
                           decoration: const InputDecoration(
                             labelText: 'Username',
                             icon: Icon(Icons.person_rounded),
@@ -96,36 +138,46 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          keyboardType: TextInputType.name,
+                          onChanged: (value) => setError(null),
+                          textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 20),
-                        TextFormField(
+                        TextField(
+                          autofillHints: const [AutofillHints.password],
                           controller: password,
-                          validator: (value) {
-                            if (value is String && value.isNotEmpty) {
-                              return null;
-                            }
-                            return 'Password Field is required';
-                          },
-                          autofocus: true,
+                          autofocus: false,
                           obscureText: !isVisible,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Password',
-                            icon: Icon(Icons.password_rounded),
+                            icon: const Icon(Icons.password_rounded),
+                            suffixIcon: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: IconButton(
+                                onPressed: togglePass,
+                                icon: Icon(
+                                  isVisible
+                                      ? Icons.visibility_off_rounded
+                                      : Icons.visibility_rounded,
+                                ),
+                              ),
+                            ),
                             filled: true,
-                            fillColor: Color(0xFFf0f1f5),
-                            border: OutlineInputBorder(
+                            fillColor: const Color(0xFFf0f1f5),
+                            border: const OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0xFFf0f1f5),
                               ),
                             ),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0xFFf0f1f5),
                               ),
                             ),
                           ),
-                          keyboardType: TextInputType.visiblePassword,
+                          onChanged: (value) => setError(null),
+                          textInputAction: TextInputAction.go,
+                          onSubmitted: (_) => login(),
                         ),
                         const SizedBox(height: 50),
                         SizedBox(
@@ -139,15 +191,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              final state = _formKey.currentState!.validate();
-                              print(state);
-                              if (state) {
-                                Get.find<AuthProvider>().toggleAuth(true);
-                                Get.toNamed('/');
-                              }
-                            },
-                            child: const Text('Login'),
+                            onPressed: isLoading ? null : login,
+                            child: AnimatedCrossFade(
+                              crossFadeState: !isLoading
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                              duration: const Duration(milliseconds: 300),
+                              alignment: Alignment.center,
+                              firstChild: const Text('Login'),
+                              secondChild: const SimpleLoader(
+                                strokeWidth: 3,
+                                size: 20,
+                              ),
+                            ),
                           ),
                         )
                       ],

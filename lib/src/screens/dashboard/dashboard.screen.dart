@@ -49,7 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     Get.find<AuthProvider>().toggleAuth(false);
-                    Get.toNamed('/login');
+                    Get.offAllNamed('/login');
                   },
                   child: const Text('logout'),
                 ),

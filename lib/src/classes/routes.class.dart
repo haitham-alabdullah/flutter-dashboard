@@ -15,5 +15,6 @@ List<GetPage<dynamic>> routes = [
     title: 'Login',
     name: LoginScreen.route,
     page: () => const LoginScreen(),
+    middlewares: [GuestMiddleware()],
   )
 ];

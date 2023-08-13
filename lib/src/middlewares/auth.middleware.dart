@@ -47,3 +47,14 @@ class AuthMiddleware extends GetMiddleware {
     print('PageDisposed');
   }
 }
+
+class GuestMiddleware extends GetMiddleware {
+  final authProvider = Get.find<AuthProvider>();
+
+  @override
+  RouteSettings? redirect(String? route) {
+    return authProvider.isAuth && route != '/'
+        ? const RouteSettings(name: '/')
+        : null;
+  }
+}
