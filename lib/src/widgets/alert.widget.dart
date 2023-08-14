@@ -65,7 +65,7 @@ class Alert extends StatelessWidget {
           Icon(getIcon(), color: color),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
+            child: SelectableText(
               message,
               style: Theme.of(context)
                   .textTheme

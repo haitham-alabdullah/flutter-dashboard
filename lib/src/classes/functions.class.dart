@@ -1,9 +1,12 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 
 String imgUrl(String url) {
-  if (kIsWeb) return '/images/$url';
-  return 'assets/images/$url';
+  if (kIsWeb) return 'images/$url';
+  return 'images/$url';
 }
 
 Future<bool> storeData(String key, dynamic value) async {
@@ -23,4 +26,12 @@ Future<dynamic> readData(String key) async {
   } catch (e) {
     return null;
   }
+}
+
+bool validateEmail(String email) {
+  return !EmailValidator.validate(email);
+}
+
+void showModel(String type) {
+  Get.defaultDialog(content: SelectableText(type));
 }

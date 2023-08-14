@@ -1,4 +1,6 @@
+import 'package:dashboard/src/classes/constents.class.dart';
 import 'package:dashboard/src/providers/auth.provider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,8 +21,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       getPages: routes,
       initialRoute: routes.first.name,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.unknown
+        },
+      ),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryColor).copyWith(
+          surfaceTint: Colors.transparent,
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: primaryColor,
+          selectionColor: primaryColor.withOpacity(.1),
+        ),
         useMaterial3: true,
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),

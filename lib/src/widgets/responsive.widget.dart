@@ -2,29 +2,41 @@ import 'package:flutter/material.dart';
 
 typedef ResponsiveBuilder = Widget Function(
   BuildContext context,
-  BoxConstraints constraints,
-  Widget child,
+  ScreenSize screen,
 );
+
+enum ScreenSizeType { desktop, tablet, mobile }
+
+class ScreenSize {
+  final double width;
+  ScreenSize(this.width);
+
+  bool get isDesktop => width > 1024;
+  bool get isTablet => width > 480 && !isDesktop;
+  bool get isMobile => !isTablet && !isDesktop;
+  ScreenSizeType get screenType => calculateScreenType();
+
+  ScreenSizeType calculateScreenType() {
+    if (isDesktop) return ScreenSizeType.desktop;
+    if (isTablet) return ScreenSizeType.tablet;
+    return ScreenSizeType.mobile;
+  }
+}
 
 class ResponsiveWidget extends StatelessWidget {
   const ResponsiveWidget({
-    this.desktop,
-    this.tablet,
-    this.mobile,
+    required this.builder,
     super.key,
   });
 
-  final Widget? desktop;
-  final Widget? tablet;
-  final Widget? mobile;
+  final ResponsiveBuilder builder;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 1024 && desktop is Widget) return desktop!;
-        if (constraints.maxWidth > 480 && tablet is Widget) return tablet!;
-        return mobile ?? const SizedBox();
+        ScreenSize size = ScreenSize(constraints.maxWidth);
+        return builder(context, size);
       },
     );
   }

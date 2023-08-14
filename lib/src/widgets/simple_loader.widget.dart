@@ -14,14 +14,12 @@ class SimpleLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: size,
-        width: size,
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(color),
-          strokeWidth: strokeWidth,
-        ),
+    return SizedBox(
+      height: size,
+      width: size,
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation(color),
+        strokeWidth: strokeWidth,
       ),
     );
   }
