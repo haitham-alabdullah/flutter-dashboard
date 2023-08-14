@@ -25,7 +25,7 @@ class WrapperWidgetState extends State<WrapperWidget> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 80),
-                child: widget.builder(screen),
+                child: Focus(autofocus: true, child: widget.builder(screen)),
               ),
             ),
           ],

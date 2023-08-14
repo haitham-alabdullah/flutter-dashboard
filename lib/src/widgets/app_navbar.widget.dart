@@ -59,31 +59,32 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Logo(full: screen.isDesktop),
               ),
             const AppSearch(),
-            Expanded(
-              flex: 1,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (!screen.isMobile)
-                      SizedBox(
-                        height: 55,
-                        child: NavBarButtonWidget(
-                          desktop: screen.isDesktop,
-                          text: 'Show Model',
-                          icon: Icons.add_rounded,
-                          onTap: () => showModel('test'),
+            if (!screen.isMobile)
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (!screen.isMobile)
+                        SizedBox(
+                          height: 55,
+                          child: NavBarButtonWidget(
+                            desktop: screen.isDesktop,
+                            text: 'Show Model',
+                            icon: Icons.add_rounded,
+                            onTap: () => showModel('test'),
+                          ),
                         ),
+                      const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [],
                       ),
-                    const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         ),
         toolbarHeight: preferredSize.height,

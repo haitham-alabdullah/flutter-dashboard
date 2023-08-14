@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'src/classes/routes.class.dart';
+import 'src/providers/routes.provider.dart';
+import 'src/providers/search.provider.dart';
 
 void main() {
   Get.lazyPut(() => AuthProvider());
+  Get.lazyPut(() => RoutesProvider());
+  Get.lazyPut(() => SearchProvider());
   runApp(const MyApp());
 }
 
