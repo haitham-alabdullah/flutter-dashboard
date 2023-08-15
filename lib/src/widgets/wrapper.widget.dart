@@ -22,13 +22,6 @@ class WrapperWidgetState extends State<WrapperWidget> {
         drawer: !screen.isDesktop ? const AppDrawer() : null,
         body: Stack(
           children: [
-            const Positioned(
-              top: 90,
-              bottom: 90,
-              right: 10,
-              width: 400,
-              child: Toasts(),
-            ),
             Positioned.fill(
               child: Row(
                 children: [
@@ -42,6 +35,13 @@ class WrapperWidgetState extends State<WrapperWidget> {
                   ),
                 ],
               ),
+            ),
+            const Positioned(
+              top: 80,
+              bottom: 90,
+              right: 10,
+              width: 400,
+              child: Toasts(),
             ),
           ],
         ),

@@ -58,7 +58,10 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 child: Logo(full: screen.isDesktop),
               ),
-            const AppSearch(),
+            const Expanded(
+              flex: 2,
+              child: AppSearch(),
+            ),
             if (!screen.isMobile)
               Expanded(
                 flex: 1,

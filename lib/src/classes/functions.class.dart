@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
+import '../providers/routes.provider.dart';
+import '../providers/search.provider.dart';
+import '../providers/toast.provider.dart';
+
 String imgUrl(String url) {
   if (kIsWeb) return 'images/$url';
   return 'images/$url';
@@ -34,4 +38,10 @@ bool validateEmail(String email) {
 
 void showModel(String type) {
   Get.defaultDialog(content: SelectableText(type));
+}
+
+void initializeProviders() {
+  Get.put(RoutesProvider());
+  Get.put(SearchProvider());
+  Get.put(ToastProvider());
 }

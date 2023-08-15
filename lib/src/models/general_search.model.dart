@@ -1,1 +1,3 @@
-class GeneralSearchModel {}
+class GeneralSearchModel {
+  GeneralSearchModel();
+}

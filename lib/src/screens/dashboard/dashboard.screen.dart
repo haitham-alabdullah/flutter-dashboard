@@ -16,9 +16,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return WrapperWidget(
-      (screen) => GetBuilder<RoutesProvider>(builder: (routes) {
-        return routes.currentWidget.call();
-      }),
+      (screen) => GetBuilder<RoutesProvider>(
+        builder: (routes) {
+          return routes.currentWidget.call();
+        },
+      ),
     );
   }
 }

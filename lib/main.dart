@@ -4,16 +4,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'src/classes/functions.class.dart';
 import 'src/classes/routes.class.dart';
-import 'src/providers/routes.provider.dart';
-import 'src/providers/search.provider.dart';
-import 'src/providers/toast.provider.dart';
 
 void main() {
-  Get.lazyPut(() => AuthProvider());
-  Get.lazyPut(() => RoutesProvider());
-  Get.lazyPut(() => SearchProvider());
-  Get.lazyPut(() => ToastProvider());
+  Get.put(AuthProvider(), permanent: true);
+  initializeProviders();
   runApp(const MyApp());
 }
 

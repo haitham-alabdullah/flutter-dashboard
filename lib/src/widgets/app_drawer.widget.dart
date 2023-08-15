@@ -87,8 +87,9 @@ class _AppDrawerState extends State<AppDrawer> {
         title: Text(item['name']),
         selected: provider.current == item['route'],
         onTap: () {
-          provider.changeRoute(
+          Routes.toNamed(
             parent is String ? (parent + item['route']) : item['route'],
+            duplicate: true,
           );
         },
       );
@@ -126,18 +127,20 @@ class _AppDrawerState extends State<AppDrawer> {
               Expanded(
                 child: isLoading
                     ? const Center(child: SimpleLoader())
-                    : GetBuilder<RoutesProvider>(builder: (provider) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Scrollbar(
-                            controller: scrollController,
-                            child: ListView(
+                    : GetBuilder<RoutesProvider>(
+                        builder: (provider) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Scrollbar(
                               controller: scrollController,
-                              children: menu.map(getItem).toList(),
+                              child: ListView(
+                                controller: scrollController,
+                                children: menu.map(getItem).toList(),
+                              ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        },
+                      ),
               ),
             ],
           ),
