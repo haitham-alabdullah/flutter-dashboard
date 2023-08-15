@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../../classes/enums.class.dart';
 import '../../../classes/functions.class.dart';
 import '../../../widgets/simple_loader.widget.dart';
-import '../../../widgets/alert.widget.dart';
+import '../../../widgets/notifications_widgets/alert.widget.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';

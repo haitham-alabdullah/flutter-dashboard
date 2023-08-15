@@ -8,8 +8,8 @@ class RoutesProvider extends GetxController {
 
   String get current => _current.value;
 
-  Widget get currentWidget =>
-      internalRoutes[current]?.call() ?? const Error404Screen();
+  Widget Function() get currentWidget =>
+      internalRoutes[current] ?? () => const Error404Screen();
 
   void changeRoute(String newRoute) {
     if (newRoute.startsWith('/') && newRoute != _current.value) {

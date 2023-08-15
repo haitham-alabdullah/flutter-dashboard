@@ -1,13 +1,7 @@
 import 'package:dashboard/src/classes/constents.class.dart';
 import 'package:flutter/material.dart';
 
-enum AlertType {
-  primary,
-  success,
-  danger,
-  warning,
-  info,
-}
+import '../../classes/enums.class.dart';
 
 class Alert extends StatelessWidget {
   const Alert(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../classes/enums.class.dart';
+
 typedef ResponsiveBuilder = Widget Function(
   BuildContext context,
   ScreenSize screen,
 );
-
-enum ScreenSizeType { desktop, tablet, mobile }
 
 class ScreenSize {
   final double width;
