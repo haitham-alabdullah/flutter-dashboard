@@ -5,14 +5,10 @@ import 'app_drawer.widget.dart';
 import 'app_navbar.widget.dart';
 import '../notifications_widgets/toast.widget.dart';
 
-class WrapperWidget extends StatefulWidget {
-  const WrapperWidget(this.builder, {super.key});
-  final Widget Function(ScreenSize) builder;
-  @override
-  State<WrapperWidget> createState() => WrapperWidgetState();
-}
+class WrapperWidget extends StatelessWidget {
+  const WrapperWidget(this.widget, {super.key});
+  final Widget widget;
 
-class WrapperWidgetState extends State<WrapperWidget> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
@@ -29,7 +25,7 @@ class WrapperWidgetState extends State<WrapperWidget> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 80),
-                      child: widget.builder(screen),
+                      child: widget,
                     ),
                   ),
                 ],

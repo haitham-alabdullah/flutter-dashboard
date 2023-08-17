@@ -6,4 +6,4 @@ enum ScreenSizeType { desktop, tablet, mobile }
 
 enum DissmissType { auto, click, swipe }
 
-enum DrawerType { link, menu }
+enum DrawerItemType { link, menu }

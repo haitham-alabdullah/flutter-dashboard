@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:dashboard/src/classes/enums.class.dart';
+import 'package:dashboard/src/classes/routes.class.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
+import '../models/app_models/drawer_item.model.dart';
 import '../providers/routes.provider.dart';
 import '../providers/search.provider.dart';
 import '../providers/toast.provider.dart';
@@ -66,4 +68,25 @@ void initializeProviders() {
   Get.put(RoutesProvider());
   Get.put(SearchProvider());
   Get.put(ToastProvider());
+}
+
+closeDrawerMenu(DrawerItem item) {
+  for (var child in drawerMenu) {
+    if (child.type == DrawerItemType.menu) {
+      child.isOpen = false;
+      for (var subChild in child.children) {
+        if (subChild == item) {
+          child.isOpen = true;
+        } else if (subChild.type == DrawerItemType.menu) {
+          subChild.isOpen = false;
+          for (var subsubChild in subChild.children) {
+            if (subsubChild == item) {
+              child.isOpen = true;
+              subChild.isOpen = true;
+            }
+          }
+        }
+      }
+    }
+  }
 }

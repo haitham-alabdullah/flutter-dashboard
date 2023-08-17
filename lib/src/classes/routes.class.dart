@@ -1,11 +1,11 @@
+import 'package:dashboard/src/models/app_models/drawer_item.model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../middlewares/auth.middleware.dart';
-import '../providers/routes.provider.dart';
 import '../screens/auth/login/login.screen.dart';
+import '../screens/dashboard/dashboard.screen.dart';
 import '../screens/main/main.screen.dart';
-import '../widgets/simple_loader.widget.dart';
 
 List<GetPage<dynamic>> appRoutes = [
   GetPage(
@@ -23,26 +23,13 @@ List<GetPage<dynamic>> appRoutes = [
 ];
 
 Map<String, Widget Function()> internalRoutes = {
-  '/': () => Center(
-        child: FutureBuilder(
-            future: Future.delayed(const Duration(seconds: 2), () {}),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return const Center(child: SimpleLoader());
-              }
-              return SizedBox(
-                child: Text(
-                  Get.find<RoutesProvider>().arguments.toString(),
-                ),
-              );
-            }),
-      ),
+  '/': () => const DashboadScreen(),
   '/menu/1': () => const SizedBox(child: Text('1')),
   '/menu/2': () => const SizedBox(child: Text('2')),
   '/menu/3': () => const SizedBox(child: Text('3')),
 };
 
-final List<Map<String, dynamic>> drawerMenu = [
+final List<Map<String, dynamic>> drawerMenuMap = [
   {
     'type': 'link',
     'name': 'Dashboard',
@@ -130,3 +117,6 @@ final List<Map<String, dynamic>> drawerMenu = [
     ],
   },
 ];
+
+final List<DrawerItem> drawerMenu =
+    drawerMenuMap.map(DrawerItem.fromJson).toList();

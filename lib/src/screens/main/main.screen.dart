@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return WrapperWidget(
-      (screen) => GetBuilder<RoutesProvider>(
+      GetBuilder<RoutesProvider>(
         builder: (routes) {
           return routes.currentWidget.call();
         },

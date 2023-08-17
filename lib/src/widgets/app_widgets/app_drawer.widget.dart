@@ -1,9 +1,12 @@
+import 'package:dashboard/src/classes/functions.class.dart';
 import 'package:dashboard/src/providers/routes.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../classes/constents.class.dart';
+import '../../classes/enums.class.dart';
 import '../../classes/routes.class.dart';
+import '../../models/app_models/drawer_item.model.dart';
 import 'app_logo.widget.dart';
 import '../responsive.widget.dart';
 
@@ -31,36 +34,81 @@ class _AppDrawerState extends State<AppDrawer> {
     super.dispose();
   }
 
-  Widget getItem(Map<String, dynamic> item, {String? parent}) {
-    final route = parent is String ? (parent + item['route']) : item['route'];
-    if (item['type'] == 'link') {
-      return ListTile(
-        key: ValueKey(route),
-        title: Text(item['name']),
-        selected: provider.current == route,
-        selectedTileColor: primaryColor.withOpacity(.2),
+  Widget getItem(DrawerItem item, {String? parent}) {
+    if (item.type == DrawerItemType.menu) {
+      final children = item.children;
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 1,
+        ),
+        child: ExpansionTile(
+          key: GlobalKey(),
+          onExpansionChanged: (value) {
+            closeDrawerMenu(item);
+            Future.delayed(const Duration(milliseconds: 250), () {
+              setState(() {
+                item.isOpen = value;
+              });
+            });
+          },
+          title: Text(
+            item.name,
+            selectionColor: Colors.grey.shade900,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: item.isOpen ? FontWeight.w600 : FontWeight.w500,
+                ),
+          ),
+          trailing: AnimatedCrossFade(
+            crossFadeState: item.isOpen
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            duration: const Duration(microseconds: 400),
+            firstChild: const Icon(Icons.add_rounded),
+            secondChild: const Icon(Icons.remove_rounded),
+          ),
+          childrenPadding: const EdgeInsets.only(left: 15),
+          initiallyExpanded: item.isOpen,
+          backgroundColor: Colors.grey.withOpacity(.05),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          collapsedShape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          children: children.map((v) => getItem(v)).toList(),
+        ),
+      );
+    }
+    final selected = provider.current == item.route;
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 1,
+      ),
+      child: ListTile(
+        key: ValueKey(item),
+        title: Text(item.name),
+        titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+            ),
+        selectedColor: Colors.grey.shade900,
+        hoverColor: Colors.grey.withOpacity(.1),
+        selected: selected,
+        selectedTileColor: Colors.grey.withOpacity(.2),
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        style: ListTileStyle.drawer,
         onTap: () {
           Routes.toNamed(
-            route,
+            item.route,
             duplicate: true,
           );
+          closeDrawerMenu(item);
         },
-      );
-    }
-    if (item['type'] == 'menu') {
-      final children = item['children'] as List<Map<String, dynamic>>;
-      return ExpansionTile(
-        key: ValueKey(route),
-        title: Text(item['name']),
-        childrenPadding: const EdgeInsets.only(left: 15),
-        initiallyExpanded: provider.current.startsWith(route),
-        backgroundColor: primaryColor.withOpacity(.05),
-        shape: const BeveledRectangleBorder(),
-        children: children.map((v) => getItem(v, parent: route)).toList(),
-      );
-    }
-
-    return const SizedBox();
+      ),
+    );
   }
 
   @override
