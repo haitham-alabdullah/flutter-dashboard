@@ -3,8 +3,8 @@ import 'package:dashboard/src/widgets/simple_loader.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../classes/constents.class.dart';
-import '../classes/shortcuts.class.dart';
+import '../../classes/constents.class.dart';
+import '../../classes/shortcuts.class.dart';
 
 class AppSearch extends StatefulWidget {
   const AppSearch({super.key});

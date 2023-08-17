@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'SEA HORSE',
       debugShowCheckedModeBanner: false,
-      getPages: routes,
-      initialRoute: routes.first.name,
+      getPages: appRoutes,
+      initialRoute: appRoutes.first.name,
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.mouse,

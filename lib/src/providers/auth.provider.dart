@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class AuthProvider extends GetxController {
-  final RxBool _isAuth = RxBool(false);
+  final RxBool _isAuth = RxBool(true);
 
   bool get isAuth => _isAuth.value;
   String? get username => 'Haitham';

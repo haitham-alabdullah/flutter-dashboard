@@ -122,10 +122,12 @@ class Toast extends StatelessWidget {
                 const SizedBox(width: 10),
                 InkWell(
                   onTap: () => dismiss(item, DissmissType.click),
-                  splashColor: Colors.transparent,
-                  child: const Icon(
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  splashColor: color.withOpacity(.1),
+                  child: Icon(
                     Icons.close_rounded,
-                    color: primaryColor,
+                    size: 20,
+                    color: color,
                   ),
                 ),
               ],

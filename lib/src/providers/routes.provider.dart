@@ -1,7 +1,7 @@
-import 'package:dashboard/src/widgets/simple_loader.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../classes/routes.class.dart';
 import '../screens/errors/404.screen.dart';
 
 class Routes {
@@ -59,23 +59,3 @@ class RoutesProvider extends GetxController {
     update();
   }
 }
-
-Map<String, Widget Function()> internalRoutes = {
-  '/': () => Center(
-        child: FutureBuilder(
-            future: Future.delayed(const Duration(seconds: 2), () {}),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return const Center(child: SimpleLoader());
-              }
-              return SizedBox(
-                child: Text(
-                  Get.find<RoutesProvider>().arguments.toString(),
-                ),
-              );
-            }),
-      ),
-  '/menu/1': () => const SizedBox(child: Text('1')),
-  '/menu/2': () => const SizedBox(child: Text('2')),
-  '/menu/3': () => const SizedBox(child: Text('3')),
-};

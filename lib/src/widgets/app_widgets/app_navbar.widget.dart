@@ -2,10 +2,10 @@ import 'package:dashboard/src/classes/functions.class.dart';
 import 'package:dashboard/src/widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
 
-import '../classes/constents.class.dart';
+import '../../classes/constents.class.dart';
 import 'app_search.widget.dart';
-import 'logo.widget.dart';
-import 'navbar_buttom.widget.dart';
+import 'app_logo.widget.dart';
+import '../navbar_buttom.widget.dart';
 
 class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNarBar({
@@ -22,6 +22,7 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return ResponsiveWidget(builder: (context, screen) {
       return AppBar(
+        elevation: 5,
         leadingWidth: 70,
         leading: !screen.isDesktop
             ? Padding(

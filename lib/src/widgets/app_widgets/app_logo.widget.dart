@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../classes/functions.class.dart';
+import '../../classes/functions.class.dart';
 
 class Logo extends StatelessWidget {
   const Logo({this.full = false, super.key});

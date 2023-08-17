@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../providers/routes.provider.dart';
-import '../../widgets/wrapper.widget.dart';
+import '../../widgets/app_widgets/app_wrapper.widget.dart';
 
-class DashboardScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget {
   static const route = '/';
-  const DashboardScreen({super.key});
+  const MainScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return WrapperWidget(
