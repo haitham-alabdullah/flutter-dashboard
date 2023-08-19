@@ -1,3 +1,4 @@
+import 'package:dashboard/src/providers/auth.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,11 +33,20 @@ class RoutesProvider extends GetxController {
   dynamic get arguments => _arguments.value;
   bool get isDrawerOpen => mainKey?.currentState?.isDrawerOpen ?? false;
 
-  Widget Function() get currentWidget => _currentWidget.value != null
-      ? _currentWidget.value!
-      : (internalRoutes[current] ?? () => const Error404Screen());
+  Widget Function() get currentWidget => getWidget();
 
   set currentWidget(v) => _currentWidget.value = v;
+
+  Widget Function() getWidget() {
+    final auth = Get.find<AuthProvider>();
+    if (!auth.isAuth) {
+      auth.logout();
+      return () => const Error404Screen();
+    }
+    return _currentWidget.value != null
+        ? _currentWidget.value!
+        : (internalRoutes[current] ?? () => const Error404Screen());
+  }
 
   void toNamed(String newRoute, {duplicate = false, dynamic arguments}) {
     if (newRoute.startsWith('/')) {

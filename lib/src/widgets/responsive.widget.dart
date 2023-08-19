@@ -11,8 +11,9 @@ class ScreenSize {
   final double width;
   ScreenSize(this.width);
 
+  bool get is4K => width > 1900;
   bool get isDesktop => width > 1024;
-  bool get isTablet => width > 480 && !isDesktop;
+  bool get isTablet => width > 500 && !isDesktop;
   bool get isMobile => !isTablet && !isDesktop;
   ScreenSizeType get screenType => calculateScreenType();
 
@@ -20,6 +21,13 @@ class ScreenSize {
     if (isDesktop) return ScreenSizeType.desktop;
     if (isTablet) return ScreenSizeType.tablet;
     return ScreenSizeType.mobile;
+  }
+
+  int gridAxis() {
+    if (is4K) return 12;
+    if (isDesktop) return 9;
+    if (isTablet) return 6;
+    return 3;
   }
 }
 

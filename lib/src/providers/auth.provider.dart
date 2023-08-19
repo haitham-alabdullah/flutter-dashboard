@@ -17,14 +17,13 @@ class AuthProvider extends GetxController {
 
   toggleAuth(bool value) {
     _isAuth.value = value;
-
     update();
   }
 
   void logout() async {
     _isAuth.value = false;
     update();
-    removeProviders();
+    await removeProviders();
     Get.offAllNamed(LoginScreen.route);
   }
 }

@@ -88,10 +88,10 @@ void initializeProviders() {
   Get.put(ToastProvider());
 }
 
-void removeProviders() {
-  Get.find<RoutesProvider>().dispose();
-  Get.find<SearchProvider>().dispose();
-  Get.find<ToastProvider>().dispose();
+Future<void> removeProviders() async {
+  await Get.delete<RoutesProvider>(force: true);
+  await Get.delete<SearchProvider>(force: true);
+  await Get.delete<ToastProvider>(force: true);
 }
 
 closeDrawerMenu(DrawerItem item) {

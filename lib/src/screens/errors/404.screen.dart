@@ -14,10 +14,7 @@ class Error404Screen extends StatelessWidget {
         children: <Widget>[
           Center(
             child: ElevatedButton(
-              onPressed: () {
-                Get.find<AuthProvider>().toggleAuth(false);
-                Get.toNamed('/login');
-              },
+              onPressed: Get.find<AuthProvider>().logout,
               child: const Text('logout'),
             ),
           ),

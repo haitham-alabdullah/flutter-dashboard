@@ -14,35 +14,40 @@ class WrapperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      builder: (context, screen) => Scaffold(
-        key: Get.find<RoutesProvider>().mainKey,
-        appBar: const AppNarBar(),
-        extendBodyBehindAppBar: true,
-        drawer: !screen.isDesktop ? const AppDrawer() : null,
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Row(
-                children: [
-                  if (screen.isDesktop) const AppDrawer(),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 80),
-                      child: widget,
-                    ),
+      builder: (context, screen) => GetBuilder<RoutesProvider>(
+        init: RoutesProvider(),
+        builder: (router) {
+          return Scaffold(
+            key: router.mainKey,
+            appBar: const AppNarBar(),
+            extendBodyBehindAppBar: true,
+            drawer: !screen.isDesktop ? const AppDrawer() : null,
+            body: Stack(
+              children: [
+                Positioned.fill(
+                  child: Row(
+                    children: [
+                      if (screen.isDesktop) const AppDrawer(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 80),
+                          child: widget,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const Positioned(
+                  top: 80,
+                  bottom: 20,
+                  right: 10,
+                  width: 400,
+                  child: Toasts(),
+                ),
+              ],
             ),
-            const Positioned(
-              top: 80,
-              bottom: 20,
-              right: 10,
-              width: 400,
-              child: Toasts(),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

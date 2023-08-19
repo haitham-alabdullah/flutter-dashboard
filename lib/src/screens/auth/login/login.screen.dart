@@ -135,17 +135,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               controller: emailController,
                               autofocus: true,
                               autofillHints: const [AutofillHints.email],
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Email',
-                                icon: Icon(Icons.person_rounded),
+                                icon: SizedBox(
+                                  width: 20,
+                                  child: svg(
+                                    'profile',
+                                    color: Colors.grey.shade800,
+                                  ),
+                                ),
                                 filled: true,
-                                fillColor: Color(0xFFf0f1f5),
-                                border: OutlineInputBorder(
+                                fillColor: const Color(0xFFf0f1f5),
+                                border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Color(0xFFf0f1f5),
                                   ),
                                 ),
-                                enabledBorder: OutlineInputBorder(
+                                enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Color(0xFFf0f1f5),
                                   ),
@@ -165,17 +171,25 @@ class _LoginScreenState extends State<LoginScreen> {
                               obscureText: !isVisible,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                icon: const Icon(Icons.password_rounded),
+                                icon: SizedBox(
+                                  width: 20,
+                                  child: svg(
+                                    'password',
+                                    color: Colors.grey.shade800,
+                                  ),
+                                ),
                                 suffixIcon: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   child: IconButton(
                                     onPressed: togglePass,
-                                    icon: Icon(
-                                      isVisible
-                                          ? Icons.visibility_off_rounded
-                                          : Icons.visibility_rounded,
-                                    ),
+                                    icon: isVisible
+                                        ? svg('eye.slash.fill',
+                                            size: 16,
+                                            color: Colors.grey.shade800)
+                                        : svg('eye.fill',
+                                            size: 15,
+                                            color: Colors.grey.shade800),
                                   ),
                                 ),
                                 filled: true,

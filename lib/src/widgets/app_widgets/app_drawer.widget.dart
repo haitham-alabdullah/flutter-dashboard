@@ -24,11 +24,6 @@ class _AppDrawerState extends State<AppDrawer> {
   final scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     scrollController.dispose();
     super.dispose();

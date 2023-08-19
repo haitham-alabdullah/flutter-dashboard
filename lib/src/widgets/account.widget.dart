@@ -2,6 +2,8 @@ import 'package:dashboard/src/providers/auth.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../classes/functions.class.dart';
+
 class AccountWidget extends StatelessWidget {
   const AccountWidget({
     required this.desktop,
@@ -19,10 +21,7 @@ class AccountWidget extends StatelessWidget {
           width: 200,
           child: MenuItemButton(
             onPressed: () {},
-            trailingIcon: const Icon(
-              Icons.person_outline_rounded,
-              size: 18,
-            ),
+            trailingIcon: svg('profile', size: 16, color: Colors.blueGrey),
             child: Text(
               'Profile',
               style: Theme.of(context).textTheme.labelLarge,
@@ -32,13 +31,8 @@ class AccountWidget extends StatelessWidget {
         SizedBox(
           width: 200,
           child: MenuItemButton(
-            onPressed: () {
-              Get.find<AuthProvider>().logout();
-            },
-            trailingIcon: const Icon(
-              Icons.remove_circle_outline_rounded,
-              size: 18,
-            ),
+            onPressed: Get.find<AuthProvider>().logout,
+            trailingIcon: svg('logout', size: 16, color: Colors.blueGrey),
             child: Text(
               'Logout',
               style: Theme.of(context).textTheme.labelLarge,
@@ -55,10 +49,16 @@ class AccountWidget extends StatelessWidget {
         alignment: Alignment.bottomLeft,
       ),
       builder: (_, controller, __) => GestureDetector(
-        onTap: controller.open,
+        onTap: () {
+          if (controller.isOpen) {
+            controller.close();
+          } else {
+            controller.open();
+          }
+        },
         child: Container(
           width: desktop ? 200 : null,
-          padding: const EdgeInsets.all(7),
+          padding: const EdgeInsets.symmetric(horizontal: 7),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(30)),
             color: desktop ? Colors.grey.shade100 : null,
@@ -73,7 +73,7 @@ class AccountWidget extends StatelessWidget {
                           provider.profile?.image ?? '',
                         ),
                       ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 7),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

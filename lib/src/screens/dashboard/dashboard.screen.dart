@@ -1,9 +1,7 @@
-import 'package:dashboard/src/widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../providers/routes.provider.dart';
-import '../../widgets/animated_text.widget.dart';
+import '../../widgets/responsive_grid.widget.dart';
 import '../../widgets/simple_loader.widget.dart';
 
 class DashboadScreen extends StatefulWidget {
@@ -16,25 +14,34 @@ class DashboadScreen extends StatefulWidget {
 class _DashboadScreenState extends State<DashboadScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder(
-          future: Future.delayed(const Duration(seconds: 2), () {}),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.waiting) {
-              return const Center(child: SimpleLoader());
-            }
-            return ResponsiveWidget(
-              builder: (cnx, screen) => SizedBox(
-                child: Column(
-                  children: [
-                    Text(Get.find<RoutesProvider>().arguments.toString()),
-                    Text(screen.screenType.toString()),
-                    const AnimatedNumber(number: 100),
-                  ],
+    return FutureBuilder(
+        future: Future.delayed(const Duration(seconds: 0), () {}),
+        builder: (context, snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(child: SimpleLoader());
+          }
+          return ResponsiveGrid(
+            children: [
+              ...List.generate(
+                50,
+                (index) => StaggeredGridTile.fit(
+                  crossAxisCellCount: 3,
+                  child: Container(
+                    key: ValueKey(index),
+                    height: 300,
+                    width: 300,
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: Colors.amber,
+                    ),
+                    child:
+                        Center(child: SelectableText((index + 1).toString())),
+                  ),
                 ),
               ),
-            );
-          }),
-    );
+            ],
+          );
+        });
   }
 }
