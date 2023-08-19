@@ -23,12 +23,14 @@ class Routes {
 }
 
 class RoutesProvider extends GetxController {
+  GlobalKey<ScaffoldState>? mainKey = GlobalKey();
   final RxString _current = RxString('/');
   final Rx<Widget Function()?> _currentWidget = Rx<Widget Function()?>(null);
   final Rx<dynamic> _arguments = Rx<dynamic>(null);
 
   String get current => _current.value;
   dynamic get arguments => _arguments.value;
+  bool get isDrawerOpen => mainKey?.currentState?.isDrawerOpen ?? false;
 
   Widget Function() get currentWidget => _currentWidget.value != null
       ? _currentWidget.value!
@@ -57,5 +59,21 @@ class RoutesProvider extends GetxController {
     _arguments.value = arguments;
     currentWidget = screen;
     update();
+  }
+
+  void toggleDrawer() {
+    if (mainKey?.currentState?.isDrawerOpen ?? false) {
+      mainKey?.currentState?.openDrawer();
+    } else {
+      mainKey?.currentState?.closeDrawer();
+    }
+  }
+
+  void closeDrawer() {
+    try {
+      mainKey?.currentState?.closeDrawer();
+    } catch (e) {
+      //
+    }
   }
 }

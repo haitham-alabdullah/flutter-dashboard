@@ -11,13 +11,7 @@ class Logo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Image.asset(
-          imgUrl('logo.png'),
-          width: 60,
-          height: 60,
-          colorBlendMode: BlendMode.darken,
-          fit: BoxFit.scaleDown,
-        ),
+        svg('logo', size: 35),
         const SizedBox(width: 20),
         SelectableText(
           'Mocha Fusion',

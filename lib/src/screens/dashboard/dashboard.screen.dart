@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../providers/routes.provider.dart';
+import '../../widgets/animated_text.widget.dart';
 import '../../widgets/simple_loader.widget.dart';
 
 class DashboadScreen extends StatefulWidget {
@@ -28,6 +29,7 @@ class _DashboadScreenState extends State<DashboadScreen> {
                   children: [
                     Text(Get.find<RoutesProvider>().arguments.toString()),
                     Text(screen.screenType.toString()),
+                    const AnimatedNumber(number: 100),
                   ],
                 ),
               ),

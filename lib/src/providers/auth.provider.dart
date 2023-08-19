@@ -1,5 +1,7 @@
+import 'package:dashboard/src/screens/auth/login/login.screen.dart';
 import 'package:get/get.dart';
 
+import '../classes/functions.class.dart';
 import '../models/app_models/user.model.dart';
 
 class AuthProvider extends GetxController {
@@ -17,5 +19,12 @@ class AuthProvider extends GetxController {
     _isAuth.value = value;
 
     update();
+  }
+
+  void logout() async {
+    _isAuth.value = false;
+    update();
+    removeProviders();
+    Get.offAllNamed(LoginScreen.route);
   }
 }

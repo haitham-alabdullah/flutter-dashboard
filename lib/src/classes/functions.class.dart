@@ -88,6 +88,12 @@ void initializeProviders() {
   Get.put(ToastProvider());
 }
 
+void removeProviders() {
+  Get.find<RoutesProvider>().dispose();
+  Get.find<SearchProvider>().dispose();
+  Get.find<ToastProvider>().dispose();
+}
+
 closeDrawerMenu(DrawerItem item) {
   for (var child in drawerMenu) {
     if (child.type == DrawerItemType.menu) {

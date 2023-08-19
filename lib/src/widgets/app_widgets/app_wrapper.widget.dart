@@ -1,5 +1,7 @@
+import 'package:dashboard/src/providers/routes.provider.dart';
 import 'package:dashboard/src/widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'app_drawer.widget.dart';
 import 'app_navbar.widget.dart';
@@ -13,6 +15,7 @@ class WrapperWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveWidget(
       builder: (context, screen) => Scaffold(
+        key: Get.find<RoutesProvider>().mainKey,
         appBar: const AppNarBar(),
         extendBodyBehindAppBar: true,
         drawer: !screen.isDesktop ? const AppDrawer() : null,

@@ -62,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Get.find<AuthProvider>().toggleAuth(true);
         Get.offAllNamed('/');
       });
+      initializeProviders();
     }
     update(() => isLoading = false);
   }

@@ -114,6 +114,9 @@ class _AppDrawerState extends State<AppDrawer> {
             duplicate: true,
           );
           closeDrawerMenu(item);
+          if (provider.isDrawerOpen) {
+            provider.closeDrawer();
+          }
         },
       ),
     );

@@ -39,9 +39,6 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                     shadowColor: Colors.black26,
                     elevation: 5,
                     shape: const CircleBorder(),
-                    // shape: const ContinuousRectangleBorder(
-                    //   borderRadius: BorderRadius.all(Radius.circular(10)),
-                    // ),
                   ),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
