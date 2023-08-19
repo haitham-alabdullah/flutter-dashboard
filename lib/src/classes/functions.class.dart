@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:dashboard/src/classes/constents.class.dart';
 import 'package:dashboard/src/classes/enums.class.dart';
 import 'package:dashboard/src/classes/routes.class.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../models/app_models/drawer_item.model.dart';
@@ -15,6 +18,21 @@ import '../providers/toast.provider.dart';
 String imgUrl(String url) {
   if (kIsWeb) return 'images/$url';
   return 'images/$url';
+}
+
+Widget svg(String name, {double size = 20, Color color = primaryColor}) {
+  try {
+    final String assetName = 'images/svgs/$name.svg';
+    return SvgPicture.asset(
+      assetName,
+      width: size,
+      height: size,
+      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+    );
+  } catch (e) {
+    //
+  }
+  return const SizedBox();
 }
 
 Future<bool> storeData(String key, dynamic value) async {

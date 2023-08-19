@@ -1,11 +1,12 @@
-import 'package:dashboard/src/classes/functions.class.dart';
 import 'package:dashboard/src/widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../classes/constents.class.dart';
+import '../../classes/functions.class.dart';
+import '../account.widget.dart';
+import '../navbar_buttom.widget.dart';
 import 'app_search.widget.dart';
 import 'app_logo.widget.dart';
-import '../navbar_buttom.widget.dart';
 
 class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNarBar({
@@ -24,9 +25,12 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
       return AppBar(
         elevation: 5,
         leadingWidth: 70,
+        toolbarHeight: preferredSize.height,
+        backgroundColor: navbarColor,
+        centerTitle: true,
         leading: !screen.isDesktop
             ? Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(12),
                 child: IconButton.filledTonal(
                   icon: const Icon(Icons.menu),
                   style: IconButton.styleFrom(
@@ -34,9 +38,10 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                     foregroundColor: primaryColor,
                     shadowColor: Colors.black26,
                     elevation: 5,
-                    shape: const ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
+                    shape: const CircleBorder(),
+                    // shape: const ContinuousRectangleBorder(
+                    //   borderRadius: BorderRadius.all(Radius.circular(10)),
+                    // ),
                   ),
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
@@ -48,51 +53,43 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
             : null,
         title: Row(
           children: [
-            if (!screen.isMobile)
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screen.isMobile
-                      ? 0
-                      : screen.isTablet
-                          ? 10
-                          : 25,
-                ),
-                child: Logo(full: screen.isDesktop),
+            if (screen.isDesktop)
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Logo(),
               ),
-            const Expanded(
-              flex: 2,
-              child: AppSearch(),
-            ),
+            const Expanded(child: AppSearch()),
             if (!screen.isMobile)
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (!screen.isMobile)
-                        SizedBox(
-                          height: 55,
-                          child: NavBarButtonWidget(
-                            desktop: screen.isDesktop,
-                            text: 'Show Model',
-                            icon: Icons.add_rounded,
-                            onTap: () => showModel('test'),
-                          ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (!screen.isMobile)
+                      SizedBox(
+                        height: 50,
+                        child: NavBarButtonWidget(
+                          desktop: screen.isDesktop,
+                          text: 'Show Model',
+                          icon: Icons.add_rounded,
+                          onTap: () => showModel('test'),
                         ),
-                      const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [],
                       ),
-                    ],
-                  ),
+                    SizedBox(
+                      height: 50,
+                      child: AccountWidget(
+                        desktop: screen.isDesktop,
+                      ),
+                    ),
+                    const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [],
+                    ),
+                  ],
                 ),
               )
           ],
         ),
-        toolbarHeight: preferredSize.height,
-        backgroundColor: navbarColor,
       );
     });
   }

@@ -21,7 +21,7 @@ class _AppSearchState extends State<AppSearch> {
     return CallbackShortcuts(
       bindings: {escape: provider.clear},
       child: Padding(
-        padding: const EdgeInsets.all(18.0),
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 5),
         child: TextField(
           controller: provider.searchController,
           onSubmitted: provider.search,

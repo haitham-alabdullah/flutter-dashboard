@@ -44,6 +44,10 @@ class _AppDrawerState extends State<AppDrawer> {
         ),
         child: ExpansionTile(
           key: GlobalKey(),
+          leading: svg(
+            item.icon,
+            color: item.isOpen ? Colors.blueGrey.shade800 : Colors.blueGrey,
+          ),
           onExpansionChanged: (value) {
             closeDrawerMenu(item);
             Future.delayed(const Duration(milliseconds: 250), () {
@@ -89,6 +93,10 @@ class _AppDrawerState extends State<AppDrawer> {
       child: ListTile(
         key: ValueKey(item),
         title: Text(item.name),
+        leading: svg(
+          item.icon,
+          color: selected ? Colors.blueGrey.shade800 : Colors.blueGrey,
+        ),
         titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
             ),
@@ -121,10 +129,10 @@ class _AppDrawerState extends State<AppDrawer> {
           padding: const EdgeInsets.only(top: 0),
           child: Column(
             children: [
-              if (screen.isMobile)
+              if (!screen.isDesktop)
                 const Padding(
                   padding: EdgeInsets.all(20),
-                  child: Logo(full: true),
+                  child: Logo(),
                 ),
               Expanded(
                 child: GetBuilder<RoutesProvider>(
@@ -141,10 +149,6 @@ class _AppDrawerState extends State<AppDrawer> {
                     );
                   },
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(20),
-                child: Logo(full: true),
               ),
             ],
           ),

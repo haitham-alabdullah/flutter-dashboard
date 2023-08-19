@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import '../../classes/functions.class.dart';
 
 class Logo extends StatelessWidget {
-  const Logo({this.full = false, super.key});
-
-  final bool full;
+  const Logo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +18,11 @@ class Logo extends StatelessWidget {
           colorBlendMode: BlendMode.darken,
           fit: BoxFit.scaleDown,
         ),
-        if (full) ...[
-          const SizedBox(width: 20),
-          SelectableText(
-            'Mocha Fusion',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ],
+        const SizedBox(width: 20),
+        SelectableText(
+          'Mocha Fusion',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
       ],
     );
   }
