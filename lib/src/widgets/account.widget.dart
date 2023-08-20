@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../classes/functions.class.dart';
+import '../providers/routes.provider.dart';
 
 class AccountWidget extends StatelessWidget {
   const AccountWidget({
@@ -20,7 +21,7 @@ class AccountWidget extends StatelessWidget {
         SizedBox(
           width: 200,
           child: MenuItemButton(
-            onPressed: () {},
+            onPressed: () => Routes.toNamed('/settings/account'),
             trailingIcon: svg('profile', size: 16, color: Colors.blueGrey),
             child: Text(
               'Profile',

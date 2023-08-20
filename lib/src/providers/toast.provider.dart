@@ -18,26 +18,32 @@ class Toaster {
 class ToastProvider extends GetxController {
   late GlobalKey<AnimatedListState> listKey;
 
+  @override
+  onInit() {
+    super.onInit();
+    setKey(GlobalKey<AnimatedListState>());
+  }
+
   setKey(GlobalKey<AnimatedListState> key) {
     listKey = key;
   }
 
-  final List<ToastModel> _toasts = [];
+  final Rx<List<ToastModel>> _toasts = Rx<List<ToastModel>>([]);
 
-  List<ToastModel> get toasts => _toasts;
+  List<ToastModel> get toasts => _toasts.value;
 
   addToast(String? message,
       {ToastType type = ToastType.primary, VoidCallback? callback}) {
     final item = ToastModel(type: type, message: message, callback: callback);
-    _toasts.insert(0, item);
+    _toasts.value.insert(0, item);
     listKey.currentState?.insertItem(0, duration: toastDuration);
     update();
   }
 
   removeToast(ToastModel item, DissmissType type) {
     try {
-      final index = _toasts.indexOf(item);
-      _toasts.removeAt(index);
+      final index = _toasts.value.indexOf(item);
+      _toasts.value.removeAt(index);
       listKey.currentState?.removeItem(
         index,
         (__, _) =>

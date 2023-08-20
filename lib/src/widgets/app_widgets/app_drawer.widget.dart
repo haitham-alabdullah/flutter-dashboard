@@ -29,9 +29,12 @@ class _AppDrawerState extends State<AppDrawer> {
     super.dispose();
   }
 
-  Widget getItem(DrawerItem item, {String? parent}) {
+  Widget getItem(DrawerItem item, {String? parent, bool sub = false}) {
     if (item.type == DrawerItemType.menu) {
       final children = item.children;
+      // if (provider.current.startsWith(item.route) && !item.isOpen) {
+      //   item.isOpen = true;
+      // }
       return Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 10,
@@ -41,10 +44,11 @@ class _AppDrawerState extends State<AppDrawer> {
           key: GlobalKey(),
           leading: svg(
             item.icon,
+            size: sub ? 15 : 20,
             color: item.isOpen ? Colors.blueGrey.shade800 : Colors.blueGrey,
           ),
           onExpansionChanged: (value) {
-            closeDrawerMenu(item);
+            closeDrawerMenu(item.route);
             Future.delayed(const Duration(milliseconds: 250), () {
               setState(() {
                 item.isOpen = value;
@@ -56,6 +60,7 @@ class _AppDrawerState extends State<AppDrawer> {
             selectionColor: Colors.grey.shade900,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: item.isOpen ? FontWeight.w600 : FontWeight.w500,
+                  fontSize: sub ? 14 : null,
                 ),
           ),
           trailing: AnimatedCrossFade(
@@ -66,7 +71,7 @@ class _AppDrawerState extends State<AppDrawer> {
             firstChild: const Icon(Icons.add_rounded),
             secondChild: const Icon(Icons.remove_rounded),
           ),
-          childrenPadding: const EdgeInsets.only(left: 15),
+          childrenPadding: const EdgeInsets.only(left: 10),
           initiallyExpanded: item.isOpen,
           backgroundColor: Colors.grey.withOpacity(.05),
           shape: RoundedRectangleBorder(
@@ -75,7 +80,7 @@ class _AppDrawerState extends State<AppDrawer> {
           collapsedShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          children: children.map((v) => getItem(v)).toList(),
+          children: children.map((v) => getItem(v, sub: true)).toList(),
         ),
       );
     }
@@ -88,8 +93,10 @@ class _AppDrawerState extends State<AppDrawer> {
       child: ListTile(
         key: ValueKey(item),
         title: Text(item.name),
+        dense: sub,
         leading: svg(
           item.icon,
+          size: sub ? 15 : 20,
           color: selected ? Colors.blueGrey.shade800 : Colors.blueGrey,
         ),
         titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -108,7 +115,7 @@ class _AppDrawerState extends State<AppDrawer> {
             item.route,
             duplicate: true,
           );
-          closeDrawerMenu(item);
+          closeDrawerMenu(item.route);
           if (provider.isDrawerOpen) {
             provider.closeDrawer();
           }

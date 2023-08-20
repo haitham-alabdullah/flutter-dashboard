@@ -42,7 +42,6 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 const Positioned(
                   top: 0,
-                  bottom: 20,
                   right: 10,
                   width: 400,
                   child: Toasts(),

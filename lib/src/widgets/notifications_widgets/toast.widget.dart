@@ -73,6 +73,7 @@ class _ToastsState extends State<Toasts> {
   @override
   Widget build(BuildContext context) {
     return AnimatedList(
+      shrinkWrap: true,
       key: listKey,
       itemBuilder: (cnx, i, _) => provider.buildItem(provider.toasts[i], _),
     );
@@ -107,7 +108,8 @@ class Toast extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               color: Colors.white,
-              border: Border.fromBorderSide(BorderSide(color: color)),
+              border: Border.fromBorderSide(
+                  BorderSide(color: color.withOpacity(.5), width: 2)),
             ),
             child: Row(
               children: [

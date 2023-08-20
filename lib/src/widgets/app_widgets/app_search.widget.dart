@@ -19,11 +19,15 @@ class _AppSearchState extends State<AppSearch> {
   @override
   Widget build(BuildContext context) {
     return CallbackShortcuts(
-      bindings: {escape: provider.clear},
+      bindings: {
+        escape: provider.clear,
+        controlF: provider.focus,
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 5),
         child: TextField(
           controller: provider.searchController,
+          focusNode: provider.node,
           onSubmitted: provider.search,
           onChanged: (value) => setState(() {}),
           keyboardType: TextInputType.text,

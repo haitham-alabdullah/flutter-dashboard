@@ -9,6 +9,7 @@ import 'routes.provider.dart';
 
 class SearchProvider extends GetxController {
   final searchController = TextEditingController();
+  final node = FocusNode();
   final RxBool _isLoading = RxBool(false);
 
   bool get isLoading => _isLoading.value;
@@ -16,6 +17,7 @@ class SearchProvider extends GetxController {
   @override
   void dispose() {
     searchController.dispose();
+    node.dispose();
     super.dispose();
   }
 
@@ -30,21 +32,35 @@ class SearchProvider extends GetxController {
     await Future.delayed(const Duration(seconds: 1), () {
       if (value.toLowerCase() == 'test') {
         Routes.to(() => const GeneralSerch(<GeneralSearchModel>[]));
+        searchController.clear();
       } else {
         Toaster.toast(
           '$value Not found',
           type: ToastType.warning,
           callback: () => print('clicked'),
         );
+        focus();
       }
     });
-    searchController.clear();
+
     loading(false);
   }
 
   void clear() {
-    FocusScope.of(Get.context as BuildContext).unfocus();
+    node.unfocus();
     searchController.clear();
     update();
+  }
+
+  void focus() {
+    try {
+      node.requestFocus();
+      searchController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: searchController.text.length,
+      );
+    } catch (e) {
+      //
+    }
   }
 }

@@ -28,6 +28,7 @@ Map<String, Widget Function()> internalRoutes = {
   '/menu/2': () => const SizedBox(child: Text('2')),
   '/menu/3': () => const SizedBox(child: Text('3')),
   '/menu/4': () => const SizedBox(child: Text('4')),
+  '/settings/account': () => const SizedBox(child: Text('5')),
 };
 
 final List<Map<String, dynamic>> drawerMenuMap = [
@@ -134,10 +135,18 @@ final List<Map<String, dynamic>> drawerMenuMap = [
     ],
   },
   {
-    'type': 'link',
-    'name': 'Account',
-    'icon': 'account',
-    'route': '/account',
+    'type': 'menu',
+    'name': 'Settings',
+    'icon': 'menu',
+    'route': '/settings',
+    'children': [
+      {
+        'type': 'link',
+        'name': 'Account',
+        'icon': 'account',
+        'route': '/account',
+      },
+    ],
   },
 ];
 

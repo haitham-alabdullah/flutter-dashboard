@@ -1,3 +1,4 @@
+import 'package:dashboard/src/classes/functions.class.dart';
 import 'package:dashboard/src/providers/auth.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class Routes {
       arguments: arguments,
       duplicate: duplicate,
     );
+    closeDrawerMenu(newRoute);
   }
 }
 

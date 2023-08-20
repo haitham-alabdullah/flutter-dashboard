@@ -4,9 +4,11 @@ class AnimatedNumber extends StatefulWidget {
   const AnimatedNumber({
     Key? key,
     required this.number,
+    this.separator = 3,
   }) : super(key: key);
 
   final int number;
+  final int separator;
 
   @override
   State<AnimatedNumber> createState() => _AnimatedNumberState();
@@ -41,7 +43,7 @@ class _AnimatedNumberState extends State<AnimatedNumber>
   Widget build(BuildContext context) {
     return AnimatedTextValue(
       animation: _animation,
-      separator: 3,
+      separator: widget.separator,
     );
   }
 }

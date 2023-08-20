@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: primaryColor,
-          selectionColor: primaryColor.withOpacity(.1),
+          selectionColor: primaryColor.withOpacity(.3),
         ),
         useMaterial3: true,
         textTheme: GoogleFonts.poppinsTextTheme(),

@@ -10,7 +10,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../models/app_models/drawer_item.model.dart';
 import '../providers/routes.provider.dart';
 import '../providers/search.provider.dart';
 import '../providers/toast.provider.dart';
@@ -94,17 +93,17 @@ Future<void> removeProviders() async {
   await Get.delete<ToastProvider>(force: true);
 }
 
-closeDrawerMenu(DrawerItem item) {
+closeDrawerMenu(String item) {
   for (var child in drawerMenu) {
     if (child.type == DrawerItemType.menu) {
       child.isOpen = false;
       for (var subChild in child.children) {
-        if (subChild == item) {
+        if (subChild.route == item) {
           child.isOpen = true;
         } else if (subChild.type == DrawerItemType.menu) {
           subChild.isOpen = false;
           for (var subsubChild in subChild.children) {
-            if (subsubChild == item) {
+            if (subsubChild.route == item) {
               child.isOpen = true;
               subChild.isOpen = true;
             }

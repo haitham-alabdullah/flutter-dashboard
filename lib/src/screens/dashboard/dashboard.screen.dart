@@ -1,8 +1,9 @@
+import 'package:dashboard/src/classes/enums.class.dart';
+import 'package:dashboard/src/widgets/notifications_widgets/alert.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../widgets/responsive_grid.widget.dart';
-import '../../widgets/simple_loader.widget.dart';
 
 class DashboadScreen extends StatefulWidget {
   const DashboadScreen({super.key});
@@ -12,15 +13,30 @@ class DashboadScreen extends StatefulWidget {
 }
 
 class _DashboadScreenState extends State<DashboadScreen> {
+  String alertMessage = '';
+
+  setAlert(String message) {
+    if (mounted) {
+      setState(() {
+        alertMessage = message;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 0), () {}),
-        builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(child: SimpleLoader());
-          }
-          return ResponsiveGrid(
+    return Column(
+      children: [
+        if (alertMessage.isNotEmpty)
+          Alert(
+            alertMessage,
+            type: AlertType.info,
+            key: ValueKey(alertMessage.hashCode),
+            dismissible: true,
+            onDismiss: () => setAlert(''),
+          ),
+        Expanded(
+          child: ResponsiveGrid(
             children: [
               ...List.generate(
                 50,
@@ -41,7 +57,9 @@ class _DashboadScreenState extends State<DashboadScreen> {
                 ),
               ),
             ],
-          );
-        });
+          ),
+        ),
+      ],
+    );
   }
 }
