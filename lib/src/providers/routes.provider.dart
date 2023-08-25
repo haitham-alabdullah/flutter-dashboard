@@ -27,7 +27,7 @@ class Routes {
 
 class RoutesProvider extends GetxController {
   GlobalKey<ScaffoldState>? mainKey = GlobalKey();
-  final RxString _current = RxString('/');
+  final RxString _current = RxString('/settings/account');
   final Rx<Widget Function()?> _currentWidget = Rx<Widget Function()?>(null);
   final Rx<dynamic> _arguments = Rx<dynamic>(null);
 

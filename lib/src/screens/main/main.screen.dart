@@ -1,7 +1,10 @@
+import 'package:dashboard/src/providers/alert.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../classes/constents.class.dart';
 import '../../providers/routes.provider.dart';
+import '../../widgets/app_widgets/app_breadcamp.widget.dart';
 import '../../widgets/app_widgets/app_drawer.widget.dart';
 import '../../widgets/app_widgets/app_navbar.widget.dart';
 import '../../widgets/notifications_widgets/toast.widget.dart';
@@ -35,7 +38,19 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       if (screen.isDesktop) const AppDrawer(),
                       Expanded(
-                        child: router.currentWidget.call(),
+                        child: Column(
+                          children: [
+                            GetBuilder<AlertProvider>(
+                              builder: (alerter) {
+                                return alerter.alert ?? const SizedBox();
+                              },
+                            ),
+                            if (showBreadCamp) const BreadCrumbWidget(),
+                            Expanded(
+                              child: router.currentWidget.call(),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -23,7 +23,7 @@ List<GetPage<dynamic>> appRoutes = [
 ];
 
 Map<String, Widget Function()> internalRoutes = {
-  '/': () => const DashboadScreen(),
+  '/dashboard': () => const DashboadScreen(),
   '/menu/1': () => const SizedBox(child: Text('1')),
   '/menu/2': () => const SizedBox(child: Text('2')),
   '/menu/3': () => const SizedBox(child: Text('3')),
@@ -36,7 +36,7 @@ final List<Map<String, dynamic>> drawerMenuMap = [
     'type': 'link',
     'name': 'Dashboard',
     'icon': 'dashboard',
-    'route': '/',
+    'route': '/dashboard',
   },
   {
     'type': 'menu',

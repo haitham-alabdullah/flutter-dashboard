@@ -1,9 +1,9 @@
 import 'package:dashboard/src/classes/enums.class.dart';
 import 'package:dashboard/src/models/general_search.model.dart';
-import 'package:dashboard/src/providers/toast.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../classes/functions.class.dart';
 import '../screens/search/general_search.screen.dart';
 import 'routes.provider.dart';
 
@@ -34,7 +34,7 @@ class SearchProvider extends GetxController {
         Routes.to(() => const GeneralSerch(<GeneralSearchModel>[]));
         searchController.clear();
       } else {
-        Toaster.toast(
+        toast(
           '$value Not found',
           type: ToastType.warning,
           callback: () => print('clicked'),

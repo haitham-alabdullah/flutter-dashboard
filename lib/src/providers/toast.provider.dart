@@ -5,16 +5,6 @@ import '../classes/constents.class.dart';
 import '../classes/enums.class.dart';
 import '../widgets/notifications_widgets/toast.widget.dart';
 
-class Toaster {
-  static toast(
-    String? message, {
-    ToastType type = ToastType.primary,
-    VoidCallback? callback,
-  }) {
-    Get.find<ToastProvider>().addToast(message, type: type, callback: callback);
-  }
-}
-
 class ToastProvider extends GetxController {
   late GlobalKey<AnimatedListState> listKey;
 

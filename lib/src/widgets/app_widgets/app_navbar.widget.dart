@@ -10,7 +10,7 @@ import 'app_logo.widget.dart';
 
 class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNarBar({
-    this.title = 'SEA HORSE',
+    this.title = '',
     super.key,
   });
 
@@ -56,35 +56,34 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Logo(),
               ),
             const Expanded(child: AppSearch()),
-            if (!screen.isMobile)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if (!screen.isMobile)
-                      SizedBox(
-                        height: 50,
-                        child: NavBarButtonWidget(
-                          desktop: screen.isDesktop,
-                          text: 'Show Model',
-                          icon: Icons.add_rounded,
-                          onTap: () => showModel('test'),
-                        ),
-                      ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (!screen.isMobile)
                     SizedBox(
                       height: 50,
-                      child: AccountWidget(
+                      child: NavBarButtonWidget(
                         desktop: screen.isDesktop,
+                        text: 'Show Model',
+                        icon: Icons.add_rounded,
+                        onTap: () => showModel('test'),
                       ),
                     ),
-                    const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [],
+                  const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [],
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: AccountWidget(
+                      desktop: screen.isDesktop,
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       );

@@ -42,9 +42,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email.isEmpty) {
       return !setError('The email address is required');
     }
-    // if (validateEmail(email)) {
-    //   return !setError('The email address is inviled');
-    // }
+    if (!email.isEmail) {
+      return !setError('The email address is inviled');
+    }
     if (pass.isEmpty) {
       return !setError('The password is required');
     }

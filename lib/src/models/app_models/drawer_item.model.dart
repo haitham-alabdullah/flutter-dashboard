@@ -1,3 +1,5 @@
+// ignore_for_file: hash_and_equals
+
 import '../../classes/enums.class.dart';
 
 class DrawerItem {
@@ -18,6 +20,7 @@ class DrawerItem {
   });
 
   factory DrawerItem.fromJson(Map<String, dynamic> json, {String? parent}) {
+    if (parent is String) json['route'] = parent + json['route'];
     final List<Map<String, dynamic>> childrenMap = json['children'] ?? [];
     final List<DrawerItem> children = [];
     for (var child in childrenMap) {
@@ -27,7 +30,7 @@ class DrawerItem {
       type: children.isEmpty ? DrawerItemType.link : DrawerItemType.menu,
       name: json['name'],
       icon: json['icon'] ?? '',
-      route: parent is String ? parent + json['route'] : json['route'],
+      route: json['route'],
       children: children,
     );
   }

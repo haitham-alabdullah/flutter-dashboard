@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:dashboard/src/classes/constents.class.dart';
 import 'package:dashboard/src/classes/enums.class.dart';
 import 'package:dashboard/src/classes/routes.class.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../providers/alert.provider.dart';
 import '../providers/routes.provider.dart';
 import '../providers/search.provider.dart';
 import '../providers/toast.provider.dart';
@@ -53,30 +53,41 @@ Future<dynamic> readData(String key) async {
   }
 }
 
-bool validateEmail(String email) {
-  return !EmailValidator.validate(email);
+alert(
+  String message, {
+  AlertType type = AlertType.primary,
+}) {
+  Get.find<AlertProvider>().setAlert(message, type: type);
+}
+
+toast(
+  String? message, {
+  ToastType type = ToastType.primary,
+  VoidCallback? callback,
+}) {
+  Get.find<ToastProvider>().addToast(message, type: type, callback: callback);
 }
 
 void showModel(String type) {
   final r = Random.secure().nextInt(5);
   switch (r) {
     case 0:
-      Toaster.toast(ToastType.primary.toString(), type: ToastType.primary);
+      toast(ToastType.primary.toString(), type: ToastType.primary);
       break;
     case 1:
-      Toaster.toast(ToastType.success.toString(), type: ToastType.success);
+      toast(ToastType.success.toString(), type: ToastType.success);
       break;
     case 2:
-      Toaster.toast(ToastType.warning.toString(), type: ToastType.warning);
+      toast(ToastType.warning.toString(), type: ToastType.warning);
       break;
     case 3:
-      Toaster.toast(ToastType.danger.toString(), type: ToastType.danger);
+      toast(ToastType.danger.toString(), type: ToastType.danger);
       break;
     case 4:
-      Toaster.toast(ToastType.info.toString(), type: ToastType.info);
+      toast(ToastType.info.toString(), type: ToastType.info);
       break;
     default:
-      Toaster.toast(ToastType.primary.toString(), type: ToastType.primary);
+      toast(ToastType.primary.toString(), type: ToastType.primary);
   }
   // Get.defaultDialog(content: SelectableText(type));
 }
@@ -85,12 +96,14 @@ void initializeProviders() {
   Get.put(RoutesProvider());
   Get.put(SearchProvider());
   Get.put(ToastProvider());
+  Get.put(AlertProvider());
 }
 
 Future<void> removeProviders() async {
   await Get.delete<RoutesProvider>(force: true);
   await Get.delete<SearchProvider>(force: true);
   await Get.delete<ToastProvider>(force: true);
+  await Get.delete<AlertProvider>(force: true);
 }
 
 closeDrawerMenu(String item) {

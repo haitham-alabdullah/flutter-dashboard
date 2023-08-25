@@ -33,10 +33,13 @@ class AccountWidget extends StatelessWidget {
           width: 200,
           child: MenuItemButton(
             onPressed: Get.find<AuthProvider>().logout,
-            trailingIcon: svg('logout', size: 16, color: Colors.blueGrey),
+            trailingIcon: svg('logout', size: 16, color: Colors.redAccent),
             child: Text(
               'Logout',
-              style: Theme.of(context).textTheme.labelLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge
+                  ?.copyWith(color: Colors.redAccent),
             ),
           ),
         ),
