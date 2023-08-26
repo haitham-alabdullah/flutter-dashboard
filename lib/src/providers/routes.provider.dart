@@ -1,9 +1,10 @@
-import 'package:dashboard/src/classes/functions.class.dart';
 import 'package:dashboard/src/providers/auth.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../classes/functions.class.dart';
 import '../classes/routes.class.dart';
+import '../models/app_models/drawer_item.model.dart';
 import '../screens/errors/404.screen.dart';
 
 class Routes {
@@ -38,6 +39,7 @@ class RoutesProvider extends GetxController {
   bool get isDrawerOpen => mainKey?.currentState?.isDrawerOpen ?? false;
 
   Widget Function() get currentWidget => getWidget();
+  DrawerItem get currentMenu => drawerMenu[currentIndex];
 
   set currentWidget(Widget Function()? v) => _currentWidget.value = v;
   set currentIndex(int v) => _selectedIndex.value = v;
@@ -66,6 +68,14 @@ class RoutesProvider extends GetxController {
         _currentWidget.value = null;
         update();
       }
+    }
+
+    print(newRoute);
+    try {
+      currentIndex = menuIndex(newRoute);
+      update();
+    } catch (e) {
+      print(e);
     }
   }
 

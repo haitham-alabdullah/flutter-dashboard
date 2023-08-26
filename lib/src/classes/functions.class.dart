@@ -126,3 +126,28 @@ closeDrawerMenu(String item) {
     }
   }
 }
+
+int menuIndex(String item) {
+  for (var child in drawerMenu) {
+    if (child.type == DrawerItemType.menu) {
+      for (var subChild in child.children) {
+        if (subChild.type == DrawerItemType.menu) {
+          for (var subsubChild in subChild.children) {
+            if (subsubChild.route == item) {
+              return drawerMenu.indexOf(child);
+            }
+          }
+        } else {
+          if (subChild.route == item) {
+            return drawerMenu.indexOf(child);
+          }
+        }
+      }
+    } else {
+      if (child.route == item) {
+        return drawerMenu.indexOf(child);
+      }
+    }
+  }
+  return 0;
+}
