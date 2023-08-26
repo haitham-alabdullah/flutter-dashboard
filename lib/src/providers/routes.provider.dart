@@ -27,17 +27,20 @@ class Routes {
 
 class RoutesProvider extends GetxController {
   GlobalKey<ScaffoldState>? mainKey = GlobalKey();
-  final RxString _current = RxString('/settings/account');
+  final RxInt _selectedIndex = RxInt(0);
+  final RxString _current = RxString('/dashboard');
   final Rx<Widget Function()?> _currentWidget = Rx<Widget Function()?>(null);
   final Rx<dynamic> _arguments = Rx<dynamic>(null);
 
+  int get currentIndex => _selectedIndex.value;
   String get current => _current.value;
   dynamic get arguments => _arguments.value;
   bool get isDrawerOpen => mainKey?.currentState?.isDrawerOpen ?? false;
 
   Widget Function() get currentWidget => getWidget();
 
-  set currentWidget(v) => _currentWidget.value = v;
+  set currentWidget(Widget Function()? v) => _currentWidget.value = v;
+  set currentIndex(int v) => _selectedIndex.value = v;
 
   Widget Function() getWidget() {
     final auth = Get.find<AuthProvider>();

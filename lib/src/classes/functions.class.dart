@@ -19,14 +19,14 @@ String imgUrl(String url) {
   return 'images/$url';
 }
 
-Widget svg(String name, {double size = 20, Color color = primaryColor}) {
+Widget svg(String name, {double size = 20, Color? color}) {
   try {
     final String assetName = 'images/svgs/$name.svg';
     return SvgPicture.asset(
       assetName,
       width: size,
       height: size,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      colorFilter: ColorFilter.mode(color ?? primaryColor, BlendMode.srcIn),
     );
   } catch (e) {
     //

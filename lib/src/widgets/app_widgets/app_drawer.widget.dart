@@ -29,7 +29,15 @@ class _AppDrawerState extends State<AppDrawer> {
     super.dispose();
   }
 
-  Widget getItem(DrawerItem item, {String? parent, bool sub = false}) {
+  List<Widget> getMenu(DrawerItem item) {
+    if (item.type == DrawerItemType.menu) {
+      final children = item.children;
+      return children.map(getItem).toList();
+    }
+    return [];
+  }
+
+  Widget getItem(DrawerItem item, {String? parent, bool sub = true}) {
     if (item.type == DrawerItemType.menu) {
       final children = item.children;
       // if (provider.current.startsWith(item.route) && !item.isOpen) {
@@ -47,14 +55,6 @@ class _AppDrawerState extends State<AppDrawer> {
             size: sub ? 15 : 20,
             color: item.isOpen ? Colors.blueGrey.shade800 : Colors.blueGrey,
           ),
-          onExpansionChanged: (value) {
-            closeDrawerMenu(item.route);
-            Future.delayed(const Duration(milliseconds: 250), () {
-              setState(() {
-                item.isOpen = value;
-              });
-            });
-          },
           title: Text(
             item.name,
             selectionColor: Colors.grey.shade900,
@@ -63,15 +63,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   fontSize: sub ? 14 : null,
                 ),
           ),
-          trailing: AnimatedCrossFade(
-            crossFadeState: item.isOpen
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            duration: const Duration(microseconds: 400),
-            firstChild: const Icon(Icons.add_rounded),
-            secondChild: const Icon(Icons.remove_rounded),
-          ),
-          childrenPadding: const EdgeInsets.only(left: 10),
+          // childrenPadding: const EdgeInsets.only(left: 10),
           initiallyExpanded: item.isOpen,
           backgroundColor: Colors.grey.withOpacity(.05),
           shape: RoundedRectangleBorder(
@@ -86,10 +78,7 @@ class _AppDrawerState extends State<AppDrawer> {
     }
     final selected = provider.current == item.route;
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 1,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: ListTile(
         key: ValueKey(item),
         title: Text(item.name),
@@ -99,9 +88,6 @@ class _AppDrawerState extends State<AppDrawer> {
           size: sub ? 15 : 20,
           color: selected ? Colors.blueGrey.shade800 : Colors.blueGrey,
         ),
-        titleTextStyle: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-            ),
         selectedColor: Colors.grey.shade900,
         hoverColor: Colors.grey.withOpacity(.1),
         selected: selected,
@@ -126,39 +112,142 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveWidget(
-      builder: (cnx, screen) => Drawer(
-        backgroundColor: drawerColor,
-        shape: const ContinuousRectangleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: Column(
-            children: [
-              if (!screen.isDesktop)
-                const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Logo(),
-                ),
-              Expanded(
-                child: GetBuilder<RoutesProvider>(
-                  builder: (provider) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Scrollbar(
-                        controller: scrollController,
-                        child: ListView(
-                          controller: scrollController,
-                          children: drawerMenu.map(getItem).toList(),
-                        ),
-                      ),
-                    );
-                  },
+    return ResponsiveWidget(builder: (context, screen) {
+      return Row(
+        children: [
+          NavigationRail(
+            onDestinationSelected: (value) {
+              final item = drawerMenu[value];
+              if (item.type == DrawerItemType.link) {
+                Routes.toNamed(
+                  item.route,
+                  duplicate: true,
+                );
+                closeDrawerMenu(item.route);
+                if (provider.isDrawerOpen) {
+                  provider.closeDrawer();
+                }
+              }
+              change(value);
+            },
+            useIndicator: true,
+            indicatorColor: Colors.white,
+            backgroundColor: primaryColor,
+            labelType: NavigationRailLabelType.all,
+            unselectedLabelTextStyle: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(color: Colors.white70),
+            selectedLabelTextStyle: Theme.of(context)
+                .textTheme
+                .labelMedium
+                ?.copyWith(color: Colors.white),
+            indicatorShape: ContinuousRectangleBorder(
+              side: BorderSide(color: Colors.grey.withOpacity(.2), width: 2),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            leading: Visibility(
+              visible: !screen.isDesktop,
+              child: const Padding(
+                padding: EdgeInsets.all(20),
+                child: Logo(
+                  text: false,
+                  color: Colors.white,
                 ),
               ),
+            ),
+            destinations: [
+              ...drawerMenu
+                  .map<NavigationRailDestination>(
+                    (item) => NavigationRailDestination(
+                      padding: const EdgeInsets.all(10),
+                      icon: svg(
+                        item.icon,
+                        size: 20,
+                        color: Colors.white70,
+                      ),
+                      selectedIcon: svg(
+                        item.icon,
+                        size: 20,
+                      ),
+                      label: Text(item.name),
+                    ),
+                  )
+                  .toList(),
             ],
+            selectedIndex: selectedIndex,
           ),
-        ),
-      ),
-    );
+          if (drawerMenu[selectedIndex].children.isNotEmpty)
+            Drawer(
+              backgroundColor: drawerColor,
+              shape: const ContinuousRectangleBorder(),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Column(
+                  children: [
+                    if (!screen.isDesktop)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 33, left: 20, right: 20),
+                        child: Logo(logo: false),
+                      ),
+                    Expanded(
+                      child: GetBuilder<RoutesProvider>(
+                        builder: (provider) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Scrollbar(
+                              controller: scrollController,
+                              child: ListView(
+                                controller: scrollController,
+                                children: getMenu(drawerMenu[selectedIndex]),
+                                // children: drawerMenu.map(getItem).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+        ],
+      );
+    });
+
+    // return ResponsiveWidget(
+    //   builder: (cnx, screen) => Drawer(
+    //     backgroundColor: drawerColor,
+    //     shape: const ContinuousRectangleBorder(),
+    //     child: Padding(
+    //       padding: const EdgeInsets.only(top: 0),
+    //       child: Column(
+    //         children: [
+    //           if (!screen.isDesktop)
+    //             const Padding(
+    //               padding: EdgeInsets.all(20),
+    //               child: Logo(),
+    //             ),
+    //           Expanded(
+    //             child: GetBuilder<RoutesProvider>(
+    //               builder: (provider) {
+    //                 return Padding(
+    //                   padding: const EdgeInsets.symmetric(vertical: 10),
+    //                   child: Scrollbar(
+    //                     controller: scrollController,
+    //                     child: ListView(
+    //                       controller: scrollController,
+    //                       children: drawerMenu.map(getItem).toList(),
+    //                     ),
+    //                   ),
+    //                 );
+    //               },
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
