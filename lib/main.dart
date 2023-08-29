@@ -1,5 +1,6 @@
 import 'package:dashboard/src/classes/constents.class.dart';
-import 'package:dashboard/src/providers/auth.provider.dart';
+import 'package:dashboard/src/platform/platform_functions.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,9 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'src/classes/functions.class.dart';
 import 'src/classes/routes.class.dart';
 
-void main() {
-  Get.put(AuthProvider(), permanent: true);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  PlatformFunctions.init();
   initializeProviders();
+
   runApp(const MyApp());
 }
 

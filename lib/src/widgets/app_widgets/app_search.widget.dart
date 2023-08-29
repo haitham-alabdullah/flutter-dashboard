@@ -28,6 +28,7 @@ class _AppSearchState extends State<AppSearch> {
         child: TextField(
           controller: provider.searchController,
           focusNode: provider.node,
+          onTapOutside: (e) => provider.unfocus(),
           onSubmitted: provider.search,
           onChanged: (value) => setState(() {}),
           keyboardType: TextInputType.text,

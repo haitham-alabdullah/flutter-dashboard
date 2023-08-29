@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../providers/alert.provider.dart';
+import '../providers/auth.provider.dart';
 import '../providers/routes.provider.dart';
 import '../providers/search.provider.dart';
 import '../providers/toast.provider.dart';
@@ -93,6 +94,7 @@ void showModel(String type) {
 }
 
 void initializeProviders() {
+  Get.put(AuthProvider(), permanent: true);
   Get.put(RoutesProvider());
   Get.put(SearchProvider());
   Get.put(ToastProvider());
@@ -150,4 +152,8 @@ int menuIndex(String item) {
     }
   }
   return 0;
+}
+
+void focusSearch() {
+  Get.find<SearchProvider>().focus();
 }

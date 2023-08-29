@@ -46,6 +46,11 @@ class SearchProvider extends GetxController {
     loading(false);
   }
 
+  void unfocus() {
+    node.unfocus();
+    update();
+  }
+
   void clear() {
     node.unfocus();
     searchController.clear();

@@ -54,6 +54,14 @@
         }
       });
     });
+
+
+    window.addEventListener('keydown', function(ev) {
+     if(ev.keyCode == '70' && ev.ctrlKey === true) {
+      ev.preventDefault()
+      
+     }
+    });
   </script>
 </body>
 </html>

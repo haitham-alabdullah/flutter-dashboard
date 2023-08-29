@@ -13,18 +13,31 @@ class ResponsiveGrid extends StatefulWidget {
   State<ResponsiveGrid> createState() => _ResponsiveGridState();
 }
 
-class _ResponsiveGridState extends State<ResponsiveGrid>
-    with AutomaticKeepAliveClientMixin<ResponsiveGrid> {
+class _ResponsiveGridState extends State<ResponsiveGrid> {
+  late final ScrollController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return ResponsiveWidget(
       builder: (cnx, screen) {
         return Scrollbar(
           thickness: 15,
           thumbVisibility: true,
+          controller: controller,
           child: SingleChildScrollView(
-            primary: true,
+            controller: controller,
             child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: (Get.width - 304) > maxContainerWidth
@@ -41,7 +54,4 @@ class _ResponsiveGridState extends State<ResponsiveGrid>
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
