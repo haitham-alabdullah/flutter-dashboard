@@ -148,16 +148,15 @@ class _AppDrawerState extends State<AppDrawer> {
                 side: BorderSide(color: Colors.grey.withOpacity(.2), width: 2),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
-              leading: Visibility(
-                visible: !screen.isDesktop,
-                child: const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Logo(
-                    text: false,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              leading: !screen.isDesktop
+                  ? GestureDetector(
+                      onTap: provider.closeDrawer,
+                      child: const Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Logo(color: Colors.white),
+                      ),
+                    )
+                  : null,
               destinations: [
                 ...drawerMenu
                     .map<NavigationRailDestination>(
@@ -182,35 +181,24 @@ class _AppDrawerState extends State<AppDrawer> {
             if (provider.currentMenu.children.isNotEmpty)
               Drawer(
                 backgroundColor: drawerColor,
+                shadowColor: Colors.black38,
+                elevation: 5,
                 shape: const ContinuousRectangleBorder(),
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: Column(
-                    children: [
-                      if (!screen.isDesktop)
-                        const Padding(
-                          padding:
-                              EdgeInsets.only(top: 33, left: 20, right: 20),
-                          child: Logo(logo: false),
+                  padding: EdgeInsets.only(top: screen.isMobile ? 90 : 10),
+                  child: GetBuilder<RoutesProvider>(
+                    builder: (provider) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Scrollbar(
+                          controller: scrollController,
+                          child: ListView(
+                            controller: scrollController,
+                            children: getMenu(provider.currentMenu),
+                          ),
                         ),
-                      Expanded(
-                        child: GetBuilder<RoutesProvider>(
-                          builder: (provider) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Scrollbar(
-                                controller: scrollController,
-                                child: ListView(
-                                  controller: scrollController,
-                                  children: getMenu(provider.currentMenu),
-                                  // children: drawerMenu.map(getItem).toList(),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               )
@@ -218,40 +206,5 @@ class _AppDrawerState extends State<AppDrawer> {
         );
       });
     });
-
-    // return ResponsiveWidget(
-    //   builder: (cnx, screen) => Drawer(
-    //     backgroundColor: drawerColor,
-    //     shape: const ContinuousRectangleBorder(),
-    //     child: Padding(
-    //       padding: const EdgeInsets.only(top: 0),
-    //       child: Column(
-    //         children: [
-    //           if (!screen.isDesktop)
-    //             const Padding(
-    //               padding: EdgeInsets.all(20),
-    //               child: Logo(),
-    //             ),
-    //           Expanded(
-    //             child: GetBuilder<RoutesProvider>(
-    //               builder: (provider) {
-    //                 return Padding(
-    //                   padding: const EdgeInsets.symmetric(vertical: 10),
-    //                   child: Scrollbar(
-    //                     controller: scrollController,
-    //                     child: ListView(
-    //                       controller: scrollController,
-    //                       children: drawerMenu.map(getItem).toList(),
-    //                     ),
-    //                   ),
-    //                 );
-    //               },
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

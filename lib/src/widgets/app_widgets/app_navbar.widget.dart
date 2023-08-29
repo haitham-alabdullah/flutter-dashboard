@@ -5,8 +5,8 @@ import '../../classes/constents.class.dart';
 import '../../classes/functions.class.dart';
 import '../account.widget.dart';
 import '../navbar_buttom.widget.dart';
-import 'app_search.widget.dart';
 import 'app_logo.widget.dart';
+import 'app_search.widget.dart';
 
 class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
   const AppNarBar({
@@ -24,7 +24,9 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
     return ResponsiveWidget(builder: (context, screen) {
       return AppBar(
         elevation: 5,
-        leadingWidth: 70,
+        shadowColor: Colors.black26,
+        scrolledUnderElevation: 5,
+        leadingWidth: 92,
         toolbarHeight: preferredSize.height,
         backgroundColor: navbarColor,
         centerTitle: true,
@@ -47,15 +49,23 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                       MaterialLocalizations.of(context).openAppDrawerTooltip,
                 ),
               )
-            : null,
+            : Container(
+                color: primaryColor,
+                child: const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Logo(color: Colors.white),
+                ),
+              ),
         title: Row(
           children: [
-            if (screen.isDesktop)
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                child: Logo(),
+            const Expanded(
+              child: Center(
+                child: SizedBox(
+                  width: 900,
+                  child: AppSearch(),
+                ),
               ),
-            const Expanded(child: AppSearch()),
+            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(

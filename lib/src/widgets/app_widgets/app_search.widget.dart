@@ -51,18 +51,46 @@ class _AppSearchState extends State<AppSearch> {
             ),
             suffixIcon: GetBuilder<SearchProvider>(
               builder: (provider) {
-                return Visibility(
-                  visible: provider.searchController.text.isNotEmpty,
-                  child: InkWell(
-                    onTap: provider.clear,
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Icon(
-                        Icons.cancel_rounded,
-                        color: primaryColor,
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Visibility(
+                      visible: provider.searchController.text.isEmpty,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFEFEFEF),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        child: Text(
+                          'Ctrl + F',
+                          style:
+                              Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFF616162),
+                                  ),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 15),
+                    Visibility(
+                      visible: provider.searchController.text.isNotEmpty,
+                      child: InkWell(
+                        onTap: provider.clear,
+                        child: const Icon(
+                          Icons.cancel_rounded,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: provider.searchController.text.isNotEmpty,
+                      child: const SizedBox(width: 15),
+                    ),
+                  ],
                 );
               },
             ),

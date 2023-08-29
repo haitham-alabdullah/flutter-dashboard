@@ -28,7 +28,6 @@ class _MainScreenState extends State<MainScreen> {
           return Scaffold(
             key: router.mainKey,
             appBar: const AppNarBar(),
-            extendBodyBehindAppBar: false,
             drawer: !screen.isDesktop ? const AppDrawer() : null,
             body: Stack(
               children: [
