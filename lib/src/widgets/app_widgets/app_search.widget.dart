@@ -62,7 +62,7 @@ class _AppSearchState extends State<AppSearch> {
                           vertical: 5,
                         ),
                         decoration: const BoxDecoration(
-                          color: Color(0xFFEFEFEF),
+                          color: Color(0x77EFEFEF),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
                         child: Text(

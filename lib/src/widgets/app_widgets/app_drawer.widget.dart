@@ -17,14 +17,47 @@ class AppDrawer extends StatefulWidget {
   State<AppDrawer> createState() => _AppDrawerState();
 }
 
-class _AppDrawerState extends State<AppDrawer> {
+class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
   final provider = Get.find<RoutesProvider>();
   bool isLoading = true;
 
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 275),
+      vsync: this,
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    );
+    provider.addListener(toggle);
+
+    if (provider.currentMenu.children.isNotEmpty) {
+      _controller.forward();
+    }
+    super.initState();
+  }
+
   final scrollController = ScrollController();
+
+  toggle() {
+    if (provider.currentMenu.children.isNotEmpty) {
+      _controller.forward();
+    }
+    if (provider.currentMenu.children.isEmpty) {
+      _controller.reverse();
+    }
+  }
 
   @override
   void dispose() {
+    provider.removeListener(toggle);
+    // _controller.dispose();
+    // TODO:: find a sloution to dispose _controller
     scrollController.dispose();
     super.dispose();
   }
@@ -40,9 +73,7 @@ class _AppDrawerState extends State<AppDrawer> {
   Widget getItem(DrawerItem item, {String? parent, bool sub = true}) {
     if (item.type == DrawerItemType.menu) {
       final children = item.children;
-      // if (provider.current.startsWith(item.route) && !item.isOpen) {
-      //   item.isOpen = true;
-      // }
+
       return Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 10,
@@ -178,8 +209,11 @@ class _AppDrawerState extends State<AppDrawer> {
               ],
               selectedIndex: provider.currentIndex,
             ),
-            if (provider.currentMenu.children.isNotEmpty)
-              Drawer(
+            SizeTransition(
+              sizeFactor: _animation,
+              axis: Axis.horizontal,
+              axisAlignment: -1,
+              child: Drawer(
                 backgroundColor: drawerColor,
                 shadowColor: Colors.black38,
                 elevation: 5,
@@ -201,7 +235,8 @@ class _AppDrawerState extends State<AppDrawer> {
                     },
                   ),
                 ),
-              )
+              ),
+            )
           ],
         );
       });

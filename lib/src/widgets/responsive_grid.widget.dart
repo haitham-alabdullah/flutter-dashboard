@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
@@ -44,9 +45,11 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
                     ? (((Get.width - 304) - maxContainerWidth) / 2)
                     : 0,
               ),
-              child: StaggeredGrid.count(
-                crossAxisCount: screen.gridAxis(),
-                children: widget.children,
+              child: AnimationLimiter(
+                child: StaggeredGrid.count(
+                  crossAxisCount: screen.gridAxis(),
+                  children: widget.children,
+                ),
               ),
             ),
           ),
