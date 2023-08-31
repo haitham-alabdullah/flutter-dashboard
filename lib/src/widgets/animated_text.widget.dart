@@ -5,10 +5,12 @@ class AnimatedNumber extends StatefulWidget {
     Key? key,
     required this.number,
     this.separator = 3,
+    this.style,
   }) : super(key: key);
 
   final int number;
   final int separator;
+  final TextStyle? style;
 
   @override
   State<AnimatedNumber> createState() => _AnimatedNumberState();
@@ -44,6 +46,7 @@ class _AnimatedNumberState extends State<AnimatedNumber>
     return AnimatedTextValue(
       animation: _animation,
       separator: widget.separator,
+      style: widget.style,
     );
   }
 }
@@ -54,9 +57,11 @@ class AnimatedTextValue extends AnimatedWidget {
     Key? key,
     required this.animation,
     required this.separator,
+    this.style,
   }) : super(key: key, listenable: animation);
 
   final int separator;
+  final TextStyle? style;
 
   _separatValue(int value) {
     if (separator > 0 && value.toString().length > separator) {
@@ -75,11 +80,12 @@ class AnimatedTextValue extends AnimatedWidget {
   Widget build(BuildContext context) {
     return SelectableText(
       _separatValue(animation.value),
-      style: const TextStyle(
-        fontSize: 26,
-        height: 1.4,
-        fontWeight: FontWeight.w900,
-      ),
+      style: style ??
+          const TextStyle(
+            fontSize: 26,
+            height: 1.4,
+            fontWeight: FontWeight.w900,
+          ),
     );
   }
 }

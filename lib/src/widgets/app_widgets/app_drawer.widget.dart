@@ -8,7 +8,7 @@ import '../../classes/enums.class.dart';
 import '../../classes/routes.class.dart';
 import '../../models/app_models/drawer_item.model.dart';
 import 'app_logo.widget.dart';
-import '../responsive.widget.dart';
+import '../responsive_widgets/responsive.widget.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});

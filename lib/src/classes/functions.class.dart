@@ -57,8 +57,10 @@ Future<dynamic> readData(String key) async {
 alert(
   String message, {
   AlertType type = AlertType.primary,
+  Duration dissmissDuration = Duration.zero,
 }) {
-  Get.find<AlertProvider>().setAlert(message, type: type);
+  Get.find<AlertProvider>()
+      .setAlert(message, type: type, dissmissDuration: dissmissDuration);
 }
 
 toast(

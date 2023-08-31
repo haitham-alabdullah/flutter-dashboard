@@ -8,7 +8,7 @@ import '../../widgets/app_widgets/app_breadcamp.widget.dart';
 import '../../widgets/app_widgets/app_drawer.widget.dart';
 import '../../widgets/app_widgets/app_navbar.widget.dart';
 import '../../widgets/notifications_widgets/toast.widget.dart';
-import '../../widgets/responsive.widget.dart';
+import '../../widgets/responsive_widgets/responsive.widget.dart';
 
 class MainScreen extends StatefulWidget {
   static const route = '/';
@@ -41,7 +41,10 @@ class _MainScreenState extends State<MainScreen> {
                           children: [
                             GetBuilder<AlertProvider>(
                               builder: (alerter) {
-                                return alerter.alert ?? const SizedBox();
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: alerter.alert ?? const SizedBox(),
+                                );
                               },
                             ),
                             if (showBreadCamp) const BreadCrumbWidget(),

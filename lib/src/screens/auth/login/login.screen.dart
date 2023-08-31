@@ -1,5 +1,5 @@
 import 'package:dashboard/src/providers/auth.provider.dart';
-import 'package:dashboard/src/widgets/responsive.widget.dart';
+import 'package:dashboard/src/widgets/responsive_widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

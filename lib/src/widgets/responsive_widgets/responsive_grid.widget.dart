@@ -3,12 +3,16 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
-import '../classes/constents.class.dart';
+import '../../classes/constents.class.dart';
 import 'responsive.widget.dart';
 
 class ResponsiveGrid extends StatefulWidget {
-  const ResponsiveGrid({required this.children, super.key});
-  final List<StaggeredGridTile> children;
+  const ResponsiveGrid({required this.childrenBuilder, super.key});
+
+  final List<Widget> Function(
+    BuildContext,
+    ScreenSize,
+  ) childrenBuilder;
 
   @override
   State<ResponsiveGrid> createState() => _ResponsiveGridState();
@@ -48,7 +52,7 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
               child: AnimationLimiter(
                 child: StaggeredGrid.count(
                   crossAxisCount: screen.gridAxis(),
-                  children: widget.children,
+                  children: widget.childrenBuilder(cnx, screen),
                 ),
               ),
             ),

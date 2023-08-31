@@ -16,3 +16,12 @@ const double maxContainerWidth = 1600;
 // if true a BreadCampWidget will be showen at the top of the main container
 // you can add or edit this widget as you like.
 const bool showBreadCamp = false;
+
+const List<BoxShadow> cardShadow = [
+  BoxShadow(
+    color: Color(0x1F6E9AE6),
+    offset: Offset(0, 12),
+    blurRadius: 20,
+    spreadRadius: .05,
+  ),
+];

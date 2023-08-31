@@ -2,8 +2,8 @@ import 'package:dashboard/src/providers/auth.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../classes/functions.class.dart';
 import '../providers/routes.provider.dart';
+import 'menu_list.widget.dart';
 
 class AccountWidget extends StatelessWidget {
   const AccountWidget({
@@ -15,44 +15,21 @@ class AccountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MenuAnchor(
-      alignmentOffset: const Offset(0, 15),
-      menuChildren: [
-        SizedBox(
-          width: 200,
-          child: MenuItemButton(
-            onPressed: () => Routes.toNamed('/settings/account'),
-            trailingIcon: svg('profile', size: 16, color: Colors.blueGrey),
-            child: Text(
-              'Profile',
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-          ),
+    return MenuList(
+      actions: [
+        MenuListItem(
+          callback: () => Routes.toNamed('/settings/account'),
+          svgName: 'profile',
+          title: 'Profile',
         ),
-        SizedBox(
-          width: 200,
-          child: MenuItemButton(
-            onPressed: Get.find<AuthProvider>().logout,
-            trailingIcon: svg('logout', size: 16, color: Colors.redAccent),
-            child: Text(
-              'Logout',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge
-                  ?.copyWith(color: Colors.redAccent),
-            ),
-          ),
+        MenuListItem(
+          callback: Get.find<AuthProvider>().logout,
+          svgName: 'logout',
+          title: 'Logout',
+          color: Colors.redAccent,
         ),
       ],
-      style: MenuStyle(
-        shape: MaterialStateProperty.all(
-          const ContinuousRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-        ),
-        alignment: Alignment.bottomLeft,
-      ),
-      builder: (_, controller, __) => GestureDetector(
+      builder: (controller) => GestureDetector(
         onTap: () {
           if (controller.isOpen) {
             controller.close();

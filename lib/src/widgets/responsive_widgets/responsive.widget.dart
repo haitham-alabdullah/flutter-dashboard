@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../classes/enums.class.dart';
+import '../../classes/enums.class.dart';
 
 typedef ResponsiveBuilder = Widget Function(
   BuildContext context,
@@ -15,6 +15,8 @@ class ScreenSize {
   bool get isDesktop => width > 1024;
   bool get isTablet => width > 500 && !isDesktop;
   bool get isMobile => !isTablet && !isDesktop;
+  bool get isSmall => isMobile || isTablet;
+  bool get isBig => isDesktop || is4K;
   ScreenSizeType get screenType => calculateScreenType();
 
   ScreenSizeType calculateScreenType() {

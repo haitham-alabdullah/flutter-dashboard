@@ -1,4 +1,4 @@
-import 'package:dashboard/src/widgets/responsive.widget.dart';
+import 'package:dashboard/src/widgets/responsive_widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../classes/constents.class.dart';

@@ -8,7 +8,9 @@ class AlertProvider extends GetxController {
   final Rx<Alert?> _alert = Rx<Alert?>(null);
   Widget? get alert => _alert.value;
 
-  setAlert(String message, {AlertType type = AlertType.info}) {
+  setAlert(String message,
+      {AlertType type = AlertType.info,
+      Duration dissmissDuration = Duration.zero}) {
     _alert.value = Alert(
       message,
       type: type,
