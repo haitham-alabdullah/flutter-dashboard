@@ -70,12 +70,11 @@ class RoutesProvider extends GetxController {
       }
     }
 
-    print(newRoute);
     try {
       currentIndex = menuIndex(newRoute);
       update();
     } catch (e) {
-      print(e);
+      //
     }
   }
 

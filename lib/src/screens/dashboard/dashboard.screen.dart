@@ -1,14 +1,13 @@
-import 'package:dashboard/src/classes/constents.class.dart';
-import 'package:dashboard/src/classes/enums.class.dart';
-import 'package:dashboard/src/classes/functions.class.dart';
-import 'package:dashboard/src/widgets/responsive_widgets/repesponsive_grid_item.widget.dart';
+import 'package:dashboard/src/widgets/card.widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../models/dashboard_models/dashboard_card.model.dart';
 import '../../widgets/menu_list.widget.dart';
 import '../../widgets/responsive_widgets/responsive_grid.widget.dart';
+import '../../widgets/responsive_widgets/repesponsive_grid_item.widget.dart';
 import 'dashboard_widgets/dashboard_card.widget.dart';
+import 'dashboard_widgets/line_chart.widget.dart';
+import 'dashboard_widgets/radial_chart.widget.dart';
 
 class DashboadScreen extends StatefulWidget {
   const DashboadScreen({super.key});
@@ -61,32 +60,9 @@ class _DashboadScreenState extends State<DashboadScreen> {
               (item) => ResponsiveGridItem(
                 animationIndex: values.indexOf(item),
                 crossAxisCellCount: 3,
-                child: DashboardCard(
+                child: DashboardStatisticCard(
                   item,
-                  callback: () {
-                    Get.defaultDialog(
-                      title: item.name,
-                      radius: 30,
-                      backgroundColor: Colors.white,
-                      buttonColor: primaryColor,
-                      content: const SizedBox(
-                        width: 600,
-                        height: 600,
-                      ),
-                      textConfirm: 'Confirm',
-                      textCancel: 'Cancel',
-                      onCancel: () {
-                        Get.back();
-                        toast('${item.name} adding canceled',
-                            type: ToastType.danger);
-                      },
-                      onConfirm: () {
-                        Get.back();
-                        alert('${item.name} added success',
-                            type: AlertType.success);
-                      },
-                    );
-                  },
+                  callback: () {},
                   isSmall: screen.isSmall,
                   actions: [
                     if (values.indexOf(item) == 0)
@@ -100,6 +76,141 @@ class _DashboadScreenState extends State<DashboadScreen> {
               ),
             )
             .toList(),
+        ResponsiveGridItem(
+          animationIndex: 4,
+          crossAxisCellCount: 3,
+          child: CardWidget(
+            height: 420,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SelectableText(
+                      'Shot per distance',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                const AnimationRadialChart(),
+              ],
+            ),
+          ),
+        ),
+        ResponsiveGridItem(
+          animationIndex: 5,
+          crossAxisCellCount: 3,
+          child: CardWidget(
+            height: 420,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SelectableText(
+                      'Revenue',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const Spacer(),
+                    const SelectableText('Last 7 days')
+                  ],
+                ),
+                const Spacer(),
+                const AnimationSplineChart(),
+              ],
+            ),
+          ),
+        ),
+        ResponsiveGridItem(
+          animationIndex: 5,
+          crossAxisCellCount: screen.isSmall ? 12 : 6,
+          child: CardWidget(
+            height: 420,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SelectableText(
+                      'Revenue',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const Spacer(),
+                    const SelectableText('Last 7 days VS period week')
+                  ],
+                ),
+                const Spacer(),
+                const AnimationSplineChart(),
+              ],
+            ),
+          ),
+        ),
+        ResponsiveGridItem(
+          animationIndex: 5,
+          crossAxisCellCount: 12,
+          child: CardWidget(
+            height: 700,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SelectableText(
+                      'Users',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const Spacer(),
+                    const SelectableText('Last 7 days VS period week')
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Row(
+                  children: [
+                    Expanded(
+                      child: CardWidget(
+                        child: Row(
+                          children: [
+                            Text('this is header'),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(5.0),
+                      itemCount: 100,
+                      itemBuilder: (context, i) {
+                        return CardWidget(
+                          key: ValueKey('tableRowKey$i'),
+                          child: Row(
+                            children: [
+                              Text('this is row $i'),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 30),
       ],
     );
   }

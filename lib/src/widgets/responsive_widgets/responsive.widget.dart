@@ -11,7 +11,7 @@ class ScreenSize {
   final double width;
   ScreenSize(this.width);
 
-  bool get is4K => width > 1900;
+  bool get is4K => width > 1600;
   bool get isDesktop => width > 1024;
   bool get isTablet => width > 500 && !isDesktop;
   bool get isMobile => !isTablet && !isDesktop;

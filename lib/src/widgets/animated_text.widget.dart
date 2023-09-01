@@ -80,6 +80,7 @@ class AnimatedTextValue extends AnimatedWidget {
   Widget build(BuildContext context) {
     return SelectableText(
       _separatValue(animation.value),
+      maxLines: 1,
       style: style ??
           const TextStyle(
             fontSize: 26,

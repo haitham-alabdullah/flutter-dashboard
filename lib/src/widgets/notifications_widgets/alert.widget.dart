@@ -1,5 +1,7 @@
 import 'package:dashboard/src/classes/constents.class.dart';
+import 'package:dashboard/src/providers/alert.provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../classes/enums.class.dart';
 
@@ -7,6 +9,7 @@ class Alert extends StatefulWidget {
   const Alert(
     this.message, {
     this.type = AlertType.primary,
+    this.autoDismissAfter,
     this.dismissible = false,
     this.onDismiss,
     super.key,
@@ -15,19 +18,51 @@ class Alert extends StatefulWidget {
   final String message;
   final AlertType type;
   final bool dismissible;
+  final Duration? autoDismissAfter;
   final VoidCallback? onDismiss;
 
   @override
   State<Alert> createState() => _AlertState();
 }
 
-class _AlertState extends State<Alert> {
-  bool isVisible = true;
+class _AlertState extends State<Alert> with TickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  final provider = Get.find<AlertProvider>();
 
   @override
   void initState() {
-    isVisible = true;
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 275),
+      vsync: this,
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    );
+    provider.addListener(toggle);
+
+    if (provider.alert is Widget) {
+      _controller.forward();
+    }
     super.initState();
+  }
+
+  toggle() {
+    if (provider.alert is Widget) {
+      _controller.forward();
+    }
+    if (provider.alert == null) {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    provider.removeListener(toggle);
+    _controller.dispose();
+    super.dispose();
   }
 
   Color getColor() {
@@ -60,24 +95,26 @@ class _AlertState extends State<Alert> {
     }
   }
 
-  dissmiss() {
+  void dissmiss() {
     if (mounted) {
-      setState(() {
-        isVisible = false;
+      _controller.reverse().then((value) {
+        if (widget.onDismiss is VoidCallback) widget.onDismiss?.call();
       });
-      if (widget.onDismiss is VoidCallback) widget.onDismiss?.call();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.autoDismissAfter is Duration &&
+        widget.autoDismissAfter!.inSeconds > 0) {
+      Future.delayed(widget.autoDismissAfter as Duration, dissmiss);
+    }
     final color = getColor();
-    return AnimatedCrossFade(
-      duration: const Duration(milliseconds: 150),
-      crossFadeState:
-          isVisible ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      secondChild: const SizedBox.shrink(),
-      firstChild: Container(
+    return SizeTransition(
+      sizeFactor: _animation,
+      axis: Axis.vertical,
+      axisAlignment: -1,
+      child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         decoration: BoxDecoration(

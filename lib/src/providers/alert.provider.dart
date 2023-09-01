@@ -10,11 +10,12 @@ class AlertProvider extends GetxController {
 
   setAlert(String message,
       {AlertType type = AlertType.info,
-      Duration dissmissDuration = Duration.zero}) {
+      Duration autoDismissAfter = Duration.zero}) {
     _alert.value = Alert(
       message,
       type: type,
       dismissible: true,
+      autoDismissAfter: autoDismissAfter,
       onDismiss: () {
         _alert.value = null;
         update();

@@ -22,7 +22,7 @@ class ResponsiveGridItem extends StatelessWidget {
       child: AnimationConfiguration.staggeredGrid(
         position: animationIndex,
         duration: const Duration(milliseconds: 375),
-        columnCount: 3,
+        columnCount: 6,
         child: ScaleAnimation(
           child: FadeInAnimation(
             child: child,
