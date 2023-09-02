@@ -5,7 +5,6 @@ import 'package:dashboard/src/classes/enums.class.dart';
 import 'package:dashboard/src/classes/routes.class.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -35,25 +34,6 @@ Widget svg(String name, {double size = 20, Color? color}) {
   return const SizedBox();
 }
 
-Future<bool> storeData(String key, dynamic value) async {
-  try {
-    const storage = FlutterSecureStorage();
-    await storage.write(key: key, value: value);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-Future<dynamic> readData(String key) async {
-  try {
-    const storage = FlutterSecureStorage();
-    return await storage.read(key: key);
-  } catch (e) {
-    return null;
-  }
-}
-
 alert(
   String message, {
   AlertType type = AlertType.primary,
@@ -78,22 +58,22 @@ void showModel(String type) {
   final r = Random.secure().nextInt(5);
   switch (r) {
     case 0:
-      toast(ToastType.primary.toString(), type: ToastType.primary);
+      alert(AlertType.primary.toString(), type: AlertType.primary);
       break;
     case 1:
-      toast(ToastType.success.toString(), type: ToastType.success);
+      alert(AlertType.success.toString(), type: AlertType.success);
       break;
     case 2:
-      toast(ToastType.warning.toString(), type: ToastType.warning);
+      alert(AlertType.warning.toString(), type: AlertType.warning);
       break;
     case 3:
-      toast(ToastType.danger.toString(), type: ToastType.danger);
+      alert(AlertType.danger.toString(), type: AlertType.danger);
       break;
     case 4:
-      toast(ToastType.info.toString(), type: ToastType.info);
+      alert(AlertType.info.toString(), type: AlertType.info);
       break;
     default:
-      toast(ToastType.primary.toString(), type: ToastType.primary);
+      alert(AlertType.primary.toString(), type: AlertType.primary);
   }
   // Get.defaultDialog(content: SelectableText(type));
 }
