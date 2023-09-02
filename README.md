@@ -31,20 +31,20 @@ Daily updates
 
 Dashboard
 
-![Screenshot of the dashboard.](screenshots\screenshot1.jpeg)
+![Screenshot of the dashboard.](./screenshots/screenshot1.jpeg)
 
 Dashboard tablet size
 
-![Screenshot of the dashboard.](screenshots\screenshot2.jpeg)
+![Screenshot of the dashboard.](./screenshots/screenshot2.jpeg)
 
 2 Drawer and mobile size
 
-![Screenshot of the dashboard.](screenshots\screenshot3.jpeg)
+![Screenshot of the dashboard.](./screenshots/screenshot3.jpeg)
 
 Toast and Alert system ready
 
-![Screenshot of the dashboard.](screenshots\screenshot4.jpeg)
-![Screenshot of the dashboard.](screenshots\screenshot5.jpeg)
+![Screenshot of the dashboard.](./screenshots/screenshot4.jpeg)
+![Screenshot of the dashboard.](./screenshots/screenshot5.jpeg)
 
 ## Features
 
