@@ -14,7 +14,7 @@ const Duration toastDissmissDuration = Duration(seconds: 4);
 const double maxContainerWidth = 1600;
 
 // if true a BreadCampWidget will be showen at the top of the main container
-// you can add or edit this widget as you like.
+// you can add or edit this widget as you like, you will find it in the /src/widgets/app_widgets.
 const bool showBreadCamp = false;
 
 const List<BoxShadow> cardShadow = [

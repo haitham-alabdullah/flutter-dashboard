@@ -38,7 +38,7 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
     return ResponsiveWidget(
       builder: (cnx, screen) {
         return Scrollbar(
-          thickness: 15,
+          thickness: 10,
           thumbVisibility: true,
           controller: controller,
           child: SingleChildScrollView(
@@ -47,7 +47,7 @@ class _ResponsiveGridState extends State<ResponsiveGrid> {
               padding: EdgeInsets.symmetric(
                 horizontal: (Get.width - 304) > maxContainerWidth
                     ? (((Get.width - 304) - maxContainerWidth) / 2)
-                    : 0,
+                    : 20,
               ),
               child: AnimationLimiter(
                 child: StaggeredGrid.count(

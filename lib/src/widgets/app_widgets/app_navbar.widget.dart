@@ -31,7 +31,8 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: navbarColor,
         centerTitle: true,
         leading: !screen.isDesktop
-            ? Padding(
+            ? Container(
+                width: 92,
                 padding: const EdgeInsets.all(12),
                 child: IconButton.filledTonal(
                   icon: const Icon(Icons.menu),

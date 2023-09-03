@@ -42,7 +42,16 @@ class _MainScreenState extends State<MainScreen> {
                             GetBuilder<AlertProvider>(
                               builder: (alerter) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal:
+                                        (Get.width - 304) > maxContainerWidth
+                                            ? (((Get.width - 304) -
+                                                        maxContainerWidth) /
+                                                    2) +
+                                                2
+                                            : 20,
+                                  ),
                                   child: alerter.alert ?? const SizedBox(),
                                 );
                               },

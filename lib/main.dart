@@ -11,7 +11,7 @@ import 'src/classes/routes.class.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PlatformFunctions.init();
-  initializeProviders();
+  await initializeProviders();
 
   runApp(const MyApp());
 }
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'SEA HORSE',
+      title: 'Dashboard',
       debugShowCheckedModeBanner: false,
       getPages: appRoutes,
       initialRoute: appRoutes.first.name,

@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 
 import '../../../classes/enums.class.dart';
 import '../../../classes/functions.class.dart';
+import '../../../providers/alert.provider.dart';
 import '../../../widgets/simple_loader.widget.dart';
-import '../../../widgets/notifications_widgets/alert.widget.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/login';
@@ -53,13 +53,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   login() async {
-    setError(null);
+    setError('');
     update(() => isLoading = true);
     final state = validate();
     if (state) {
       TextInput.finishAutofillContext();
-      await Future.delayed(const Duration(seconds: 1), () {
-        Get.find<AuthProvider>().toggleAuth(true);
+      await Future.delayed(const Duration(seconds: 1), () async {
+        await Get.find<AuthProvider>().toggleAuth(true);
         Get.offAllNamed('/');
       });
       initializeProviders();
@@ -67,14 +67,22 @@ class _LoginScreenState extends State<LoginScreen> {
     update(() => isLoading = false);
   }
 
-  bool setError(String? value) {
-    if (error == null && value == null) return false;
-    if (mounted) setState(() => error = value);
-    return error is String;
-  }
-
   togglePass() {
     if (mounted) setState(() => isVisible = !isVisible);
+  }
+
+  bool setError(String error) {
+    final alerter = Get.find<AlertProvider>();
+    alerter.setAlert(
+      error,
+      type: AlertType.danger,
+      dismissable: false,
+    );
+    if (mounted) {
+      setState(() {});
+    }
+    if (error.isEmpty) return false;
+    return true;
   }
 
   @override
@@ -116,16 +124,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                     ),
                     const SizedBox(height: 50),
-                    if (error is String) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Alert(
-                          error!,
-                          type: AlertType.danger,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                    GetBuilder<AlertProvider>(
+                      init: AlertProvider(),
+                      builder: (alerter) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 20,
+                            left: 20,
+                            right: 20,
+                          ),
+                          child: alerter.alert ?? const SizedBox(),
+                        );
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: AutofillGroup(
@@ -157,11 +168,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              onChanged: (value) => setError(null),
+                              onChanged: (value) => setError(''),
                               onEditingComplete:
                                   TextInput.finishAutofillContext,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.emailAddress,
+                              onSubmitted: (_) => login(),
                             ),
                             const SizedBox(height: 20),
                             TextField(
@@ -205,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              onChanged: (value) => setError(null),
+                              onChanged: (value) => setError(''),
                               onEditingComplete:
                                   TextInput.finishAutofillContext,
                               textInputAction: TextInputAction.go,

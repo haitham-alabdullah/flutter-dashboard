@@ -78,19 +78,18 @@ void showModel(String type) {
   // Get.defaultDialog(content: SelectableText(type));
 }
 
-void initializeProviders() {
+Future<void> initializeProviders() async {
   Get.put(AuthProvider(), permanent: true);
+  Get.put(AlertProvider(), permanent: true);
   Get.put(RoutesProvider());
   Get.put(SearchProvider());
   Get.put(ToastProvider());
-  Get.put(AlertProvider());
 }
 
 Future<void> removeProviders() async {
   await Get.delete<RoutesProvider>(force: true);
   await Get.delete<SearchProvider>(force: true);
   await Get.delete<ToastProvider>(force: true);
-  await Get.delete<AlertProvider>(force: true);
 }
 
 closeDrawerMenu(String item) {

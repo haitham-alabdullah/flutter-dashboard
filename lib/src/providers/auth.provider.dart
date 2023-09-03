@@ -15,8 +15,9 @@ class AuthProvider extends GetxController {
   UserModel? get profile => _profile.value;
   String? get username => 'Haitham';
 
-  toggleAuth(bool value) {
+  Future<void> toggleAuth(bool value) async {
     _isAuth.value = value;
+    await removeProviders();
     update();
   }
 

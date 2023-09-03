@@ -13,7 +13,7 @@ class ScreenSize {
 
   bool get is4K => width > 1600;
   bool get isDesktop => width > 1024;
-  bool get isTablet => width > 500 && !isDesktop;
+  bool get isTablet => width > 768 && !isDesktop;
   bool get isMobile => !isTablet && !isDesktop;
   bool get isSmall => isMobile || isTablet;
   bool get isBig => isDesktop || is4K;

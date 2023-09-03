@@ -6,6 +6,7 @@ import '../../widgets/menu_list.widget.dart';
 import '../../widgets/responsive_widgets/responsive_grid.widget.dart';
 import '../../widgets/responsive_widgets/repesponsive_grid_item.widget.dart';
 import 'dashboard_widgets/dashboard_card.widget.dart';
+import 'dashboard_widgets/data_table.widget.dart';
 import 'dashboard_widgets/line_chart.widget.dart';
 import 'dashboard_widgets/radial_chart.widget.dart';
 
@@ -85,12 +86,15 @@ class _DashboadScreenState extends State<DashboadScreen> {
               children: [
                 Row(
                   children: [
-                    SelectableText(
-                      'Shot per distance',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SelectableText(
+                        'Shot per distance',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ],
                 ),
@@ -109,12 +113,15 @@ class _DashboadScreenState extends State<DashboadScreen> {
               children: [
                 Row(
                   children: [
-                    SelectableText(
-                      'Revenue',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SelectableText(
+                        'Revenue',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                      ),
                     ),
                     const Spacer(),
                     const SelectableText('Last 7 days')
@@ -127,7 +134,7 @@ class _DashboadScreenState extends State<DashboadScreen> {
           ),
         ),
         ResponsiveGridItem(
-          animationIndex: 5,
+          animationIndex: 6,
           crossAxisCellCount: screen.isSmall ? 12 : 6,
           child: CardWidget(
             height: 420,
@@ -135,12 +142,15 @@ class _DashboadScreenState extends State<DashboadScreen> {
               children: [
                 Row(
                   children: [
-                    SelectableText(
-                      'Revenue',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SelectableText(
+                        'Revenue',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                      ),
                     ),
                     const Spacer(),
                     const SelectableText('Last 7 days VS period week')
@@ -153,7 +163,7 @@ class _DashboadScreenState extends State<DashboadScreen> {
           ),
         ),
         ResponsiveGridItem(
-          animationIndex: 5,
+          animationIndex: 7,
           crossAxisCellCount: 12,
           child: CardWidget(
             height: 700,
@@ -161,50 +171,21 @@ class _DashboadScreenState extends State<DashboadScreen> {
               children: [
                 Row(
                   children: [
-                    SelectableText(
-                      'Users',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                    const Spacer(),
-                    const SelectableText('Last 7 days VS period week')
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Row(
-                  children: [
-                    Expanded(
-                      child: CardWidget(
-                        child: Row(
-                          children: [
-                            Text('this is header'),
-                          ],
-                        ),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SelectableText(
+                        'Users',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(fontWeight: FontWeight.w700),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
-                Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(5.0),
-                      itemCount: 100,
-                      itemBuilder: (context, i) {
-                        return CardWidget(
-                          key: ValueKey('tableRowKey$i'),
-                          child: Row(
-                            children: [
-                              Text('this is row $i'),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                const Expanded(
+                  child: DataTableWidget(),
                 ),
               ],
             ),

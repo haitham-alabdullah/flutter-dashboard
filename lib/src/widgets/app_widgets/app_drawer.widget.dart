@@ -147,67 +147,71 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
       return GetBuilder<RoutesProvider>(builder: (provider) {
         return Row(
           children: [
-            NavigationRail(
-              onDestinationSelected: (value) {
-                final item = drawerMenu[value];
-                if (item.type == DrawerItemType.link) {
-                  Routes.toNamed(
-                    item.route,
-                    duplicate: true,
-                  );
-                  if (provider.isDrawerOpen) {
-                    provider.closeDrawer();
+            SizedBox(
+              width: 92,
+              child: NavigationRail(
+                onDestinationSelected: (value) {
+                  final item = drawerMenu[value];
+                  if (item.type == DrawerItemType.link) {
+                    Routes.toNamed(
+                      item.route,
+                      duplicate: true,
+                    );
+                    if (provider.isDrawerOpen) {
+                      provider.closeDrawer();
+                    }
                   }
-                }
-                provider.currentIndex = value;
-                provider.update();
-                // change(value);
-              },
-              useIndicator: true,
-              indicatorColor: Colors.white,
-              backgroundColor: primaryColor,
-              labelType: NavigationRailLabelType.all,
-              unselectedLabelTextStyle: Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(color: Colors.white70),
-              selectedLabelTextStyle: Theme.of(context)
-                  .textTheme
-                  .labelMedium
-                  ?.copyWith(color: Colors.white),
-              indicatorShape: ContinuousRectangleBorder(
-                side: BorderSide(color: Colors.grey.withOpacity(.2), width: 2),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  provider.currentIndex = value;
+                  provider.update();
+                  // change(value);
+                },
+                useIndicator: true,
+                indicatorColor: Colors.white,
+                backgroundColor: primaryColor,
+                labelType: NavigationRailLabelType.all,
+                unselectedLabelTextStyle: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(color: Colors.white70),
+                selectedLabelTextStyle: Theme.of(context)
+                    .textTheme
+                    .labelMedium
+                    ?.copyWith(color: Colors.white),
+                indicatorShape: ContinuousRectangleBorder(
+                  side:
+                      BorderSide(color: Colors.grey.withOpacity(.2), width: 2),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                leading: !screen.isDesktop
+                    ? GestureDetector(
+                        onTap: provider.closeDrawer,
+                        child: const Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Logo(color: Colors.white),
+                        ),
+                      )
+                    : null,
+                destinations: [
+                  ...drawerMenu
+                      .map<NavigationRailDestination>(
+                        (item) => NavigationRailDestination(
+                          padding: const EdgeInsets.all(10),
+                          icon: svg(
+                            item.icon,
+                            size: 20,
+                            color: Colors.white70,
+                          ),
+                          selectedIcon: svg(
+                            item.icon,
+                            size: 20,
+                          ),
+                          label: Text(item.name),
+                        ),
+                      )
+                      .toList(),
+                ],
+                selectedIndex: provider.currentIndex,
               ),
-              leading: !screen.isDesktop
-                  ? GestureDetector(
-                      onTap: provider.closeDrawer,
-                      child: const Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Logo(color: Colors.white),
-                      ),
-                    )
-                  : null,
-              destinations: [
-                ...drawerMenu
-                    .map<NavigationRailDestination>(
-                      (item) => NavigationRailDestination(
-                        padding: const EdgeInsets.all(10),
-                        icon: svg(
-                          item.icon,
-                          size: 20,
-                          color: Colors.white70,
-                        ),
-                        selectedIcon: svg(
-                          item.icon,
-                          size: 20,
-                        ),
-                        label: Text(item.name),
-                      ),
-                    )
-                    .toList(),
-              ],
-              selectedIndex: provider.currentIndex,
             ),
             SizeTransition(
               sizeFactor: _animation,
