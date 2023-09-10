@@ -2,11 +2,11 @@ import 'package:dashboard/src/widgets/card.widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/dashboard_models/dashboard_card.model.dart';
+import '../../widgets/data_tables_widgets/data_table_card.widget.dart';
 import '../../widgets/menu_list.widget.dart';
 import '../../widgets/responsive_widgets/responsive_grid.widget.dart';
 import '../../widgets/responsive_widgets/repesponsive_grid_item.widget.dart';
 import 'dashboard_widgets/dashboard_card.widget.dart';
-import 'dashboard_widgets/data_table.widget.dart';
 import 'dashboard_widgets/line_chart.widget.dart';
 import 'dashboard_widgets/radial_chart.widget.dart';
 
@@ -52,6 +52,7 @@ class _DashboadScreenState extends State<DashboadScreen> {
       'notes': 'Reports by states and ganders',
     }),
   ];
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveGrid(
@@ -165,31 +166,7 @@ class _DashboadScreenState extends State<DashboadScreen> {
         ResponsiveGridItem(
           animationIndex: 7,
           crossAxisCellCount: 12,
-          child: CardWidget(
-            height: 700,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SelectableText(
-                        'Users',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Expanded(
-                  child: DataTableWidget(),
-                ),
-              ],
-            ),
-          ),
+          child: DataTableCard(screen.isBig, screen.is4K, screen.isMobile),
         ),
         const SizedBox(height: 30),
       ],

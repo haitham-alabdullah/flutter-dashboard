@@ -141,3 +141,25 @@ int menuIndex(String item) {
 void focusSearch() {
   Get.find<SearchProvider>().focus();
 }
+
+String formatDateTime(DateTime value) {
+  int hours = value.hour;
+  String letters = 'AM';
+  if (hours > 12) {
+    hours -= 12;
+    letters = "PM";
+  }
+  String convertedDateTime = value.year.toString();
+  convertedDateTime += "-${value.month.toString().padLeft(2, '0')}";
+  convertedDateTime += "-${value.day.toString().padLeft(2, '0')}";
+  convertedDateTime += "   ${hours.toString().padLeft(2, '0')}";
+  convertedDateTime += "-${value.minute.toString().padLeft(2, '0')} $letters";
+  return convertedDateTime;
+}
+
+String formatDate(DateTime value) {
+  String convertedDateTime = value.year.toString();
+  convertedDateTime += "-${value.month.toString().padLeft(2, '0')}";
+  convertedDateTime += "-${value.day.toString().padLeft(2, '0')}";
+  return convertedDateTime;
+}

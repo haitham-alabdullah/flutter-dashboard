@@ -1,42 +1,25 @@
 import 'package:dashboard/src/classes/constents.class.dart';
+import 'package:dashboard/src/widgets/responsive_widgets/responsive.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_core/theme.dart';
 
-import '../../../../demo.data.dart';
+import '../../classes/functions.class.dart';
+import '../../models/data_table_models/grid_column.model.dart';
 
 class DataTableWidget extends StatelessWidget {
-  const DataTableWidget({super.key});
-
-  List<String> columnList() {
-    return [
-      'ID',
-      'Avatar',
-      'Name',
-      'Date of birth',
-      'Gender',
-      'Email',
-      'Phone',
-      'Actions'
-    ];
-  }
-
-  double getWidth(e) {
-    if (e == 'ID') return 100;
-    if (e == 'Avatar') return 70;
-    return double.nan;
-  }
+  const DataTableWidget(this.columnNames, {required this.dataRows, super.key});
+  final List<GridColumnModel> columnNames;
+  final List<DataGridRow> dataRows;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(10)),
-      child: Container(
+    return ResponsiveWidget(builder: (context, screen) {
+      return Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
           border: Border.all(
-            color: Colors.blueGrey,
+            color: Colors.blueGrey.withOpacity(.1),
           ),
         ),
         child: SfDataGridTheme(
@@ -60,10 +43,14 @@ class DataTableWidget extends StatelessWidget {
             allowSorting: true,
             columnWidthMode: ColumnWidthMode.fill,
             showFilterIconOnHover: true,
-            rowHeight: 80,
+            rowHeight: 70,
             gridLinesVisibility: GridLinesVisibility.horizontal,
             headerGridLinesVisibility: GridLinesVisibility.both,
-            source: TableDataList(context, users: demoUsersList),
+            source: TableDataList(
+              context,
+              data: dataRows,
+              isSmallScreen: screen.isSmall,
+            ),
             // tableSummaryRows: [
             //   GridTableSummaryRow(
             //     showSummaryInRow: true,
@@ -78,24 +65,21 @@ class DataTableWidget extends StatelessWidget {
             //     position: GridTableSummaryRowPosition.bottom,
             //   )
             // ],
-            columns: columnList()
+            columns: columnNames
                 .map(
                   (e) => GridColumn(
-                    columnName: e,
-                    width: getWidth(e),
-                    allowFiltering:
-                        e != 'ID' && e != 'Avatar' && e != 'Actions',
-                    allowSorting: e != 'Avatar' && e != 'Actions',
-                    columnWidthMode: e == 'ID' || e == 'Avatar'
-                        ? ColumnWidthMode.none
-                        : ColumnWidthMode.none,
+                    columnName: e.name,
+                    width: e.width,
+                    allowFiltering: e.allowFiltering,
+                    allowSorting: e.allowSorting,
+                    columnWidthMode: e.columnWidthMode,
                     filterIconPadding: EdgeInsets.zero,
                     label: Container(
                       padding: const EdgeInsets.all(16.0),
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.center,
                       child: FittedBox(
                         child: Text(
-                          e,
+                          e.name,
                           style:
                               Theme.of(context).textTheme.labelMedium?.copyWith(
                                     fontWeight: FontWeight.w800,
@@ -109,39 +93,19 @@ class DataTableWidget extends StatelessWidget {
                 .toList(),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
-class TableDataList extends DataGridSource {
-  TableDataList(BuildContext cnx, {required List<UsersModel> users}) {
+class TableDataList<T> extends DataGridSource {
+  TableDataList(
+    BuildContext cnx, {
+    required List<DataGridRow> data,
+    bool isSmallScreen = false,
+  }) {
     context = cnx;
-    _usersList = users
-        .map<DataGridRow>(
-          (user) => DataGridRow(
-            cells: [
-              DataGridCell<int>(columnName: 'ID', value: int.parse(user.id)),
-              DataGridCell<Widget>(
-                columnName: 'Avatar',
-                value: CircleAvatar(
-                  radius: 35,
-                  backgroundImage: NetworkImage(user.avatar),
-                ),
-              ),
-              DataGridCell<String>(columnName: 'Name', value: user.name),
-              DataGridCell<DateTime>(
-                columnName: 'Date of birth',
-                value: user.dateOfBirth.toLocal(),
-              ),
-              DataGridCell<Gender>(columnName: 'Gender', value: user.gender),
-              DataGridCell<String>(columnName: 'Email', value: user.email),
-              DataGridCell<String>(columnName: 'Phone', value: user.phone),
-              DataGridCell<String>(columnName: 'Actions', value: user.id),
-            ],
-          ),
-        )
-        .toList();
+    _usersList = data;
   }
 
   List<DataGridRow> _usersList = [];
@@ -159,7 +123,7 @@ class TableDataList extends DataGridSource {
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.all(15.0),
-      child: Text(
+      child: SelectableText(
         summaryValue,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w700,
@@ -175,15 +139,21 @@ class TableDataList extends DataGridSource {
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
         width: double.infinity,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(16.0),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(15.0),
         child: dataGridCell.value is Widget
             ? dataGridCell.value
-            : Text(
-                dataGridCell.value.toString(),
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: dataGridCell.value is int ? Colors.blueGrey : null),
-              ),
+            : dataGridCell.value is DateTime
+                ? SelectableText(
+                    formatDate(dataGridCell.value as DateTime),
+                    style: Theme.of(context).textTheme.labelMedium,
+                  )
+                : SelectableText(
+                    dataGridCell.value.toString(),
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color:
+                            dataGridCell.value is int ? Colors.blueGrey : null),
+                  ),
       );
     }).toList());
   }

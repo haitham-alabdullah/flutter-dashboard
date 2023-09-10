@@ -145,7 +145,7 @@ final List<Map<String, dynamic>> drawerMenuMap = [
   {
     'type': 'menu',
     'name': 'Settings',
-    'icon': 'menu',
+    'icon': 'settings',
     'route': '/settings',
     'children': [
       {
