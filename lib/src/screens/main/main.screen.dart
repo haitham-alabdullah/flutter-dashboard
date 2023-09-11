@@ -28,14 +28,14 @@ class _MainScreenState extends State<MainScreen> {
           return Scaffold(
             key: router.mainKey,
             appBar: const AppNarBar(),
-            drawer: !screen.isDesktop ? const AppDrawer() : null,
+            drawer: !screen.isBig ? const AppDrawer() : null,
             body: Stack(
               children: [
                 Positioned.fill(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (screen.isDesktop) const AppDrawer(),
+                      if (screen.isBig) const AppDrawer(),
                       Expanded(
                         child: Column(
                           children: [

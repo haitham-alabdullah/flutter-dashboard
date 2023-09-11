@@ -1,5 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
+import 'src/models/dashboard_models/dashboard_card.model.dart';
+
 final demoUsersList = List.generate(
   20,
   (i) => UsersModel.fromMap({
@@ -49,3 +53,38 @@ class UsersModel {
     );
   }
 }
+
+final dashboardCardModelValues = [
+  DashboardCardModel.fromJson({
+    'name': 'Projects',
+    'icon': Icons.precision_manufacturing_rounded,
+    'value': 327,
+    'persentage': 32.1,
+    'persentageValue': '2.1',
+    'notes': '8k social visitors',
+  }),
+  DashboardCardModel.fromJson({
+    'name': 'Stock Qty',
+    'icon': Icons.add_chart_rounded,
+    'value': 275,
+    'persentage': 64.1,
+    'persentageValue': '3.1',
+    'notes': 'Total 424,567 deliveries',
+  }),
+  DashboardCardModel.fromJson({
+    'name': 'C APEX',
+    'icon': Icons.apple_rounded,
+    'value': 648,
+    'persentage': 72.1,
+    'persentageValue': '12.1',
+    'notes': 'Counted in Millions',
+  }),
+  DashboardCardModel.fromJson({
+    'name': 'Saving',
+    'icon': Icons.data_saver_off_rounded,
+    'value': 18478,
+    'persentage': 24.1,
+    'persentageValue': '0.1',
+    'notes': 'Reports by states and ganders',
+  }),
+];

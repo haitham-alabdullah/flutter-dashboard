@@ -30,7 +30,7 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: preferredSize.height,
         backgroundColor: navbarColor,
         centerTitle: true,
-        leading: !screen.isDesktop
+        leading: !screen.isBig
             ? Container(
                 width: 92,
                 padding: const EdgeInsets.all(12),
@@ -76,7 +76,7 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                     SizedBox(
                       height: 50,
                       child: NavBarButtonWidget(
-                        desktop: screen.isDesktop,
+                        desktop: screen.isBig,
                         text: 'Show Model',
                         icon: Icons.add_rounded,
                         onTap: () => showModel('test'),
@@ -89,7 +89,7 @@ class AppNarBar extends StatelessWidget implements PreferredSizeWidget {
                   SizedBox(
                     height: 50,
                     child: AccountWidget(
-                      desktop: screen.isDesktop,
+                      desktop: screen.isBig,
                     ),
                   ),
                 ],

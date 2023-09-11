@@ -102,9 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
               : null,
           child: Center(
             child: SingleChildScrollView(
-              physics: screen.isDesktop
-                  ? const NeverScrollableScrollPhysics()
-                  : null,
+              physics:
+                  screen.isBig ? const NeverScrollableScrollPhysics() : null,
               child: Container(
                 width: !screen.isMobile ? 550 : null,
                 decoration: BoxDecoration(

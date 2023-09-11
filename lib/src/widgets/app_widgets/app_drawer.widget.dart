@@ -182,7 +182,7 @@ class _AppDrawerState extends State<AppDrawer> with TickerProviderStateMixin {
                       BorderSide(color: Colors.grey.withOpacity(.2), width: 2),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
-                leading: !screen.isDesktop
+                leading: !screen.isBig
                     ? GestureDetector(
                         onTap: provider.closeDrawer,
                         child: const Padding(
